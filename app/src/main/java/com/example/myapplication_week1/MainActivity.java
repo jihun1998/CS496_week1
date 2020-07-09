@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         image21 = (ImageView)findViewById(R.id.image21);
         image21.setOnClickListener(this);
 
-
         spec = host.newTabSpec("tab3");
         spec.setIndicator(null, ResourcesCompat.getDrawable(getResources(), R.drawable.tab_icon3, null));
         spec.setContent(R.id.tab_content3);
@@ -85,8 +84,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        Intent intent = new Intent(getApplicationContext(), ImageClicked.class);
         if(v==image1){
-           image.setImageResource(R.drawable.image1);
+           intent.putExtra("image", Integer.toString(R.id.image1));
+           startActivity(intent);
         }
         else if(v==image2){
             image.setImageResource(R.drawable.image2);
