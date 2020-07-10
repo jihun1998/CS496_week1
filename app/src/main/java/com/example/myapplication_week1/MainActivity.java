@@ -25,14 +25,38 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 //import java.util.List;
 
-public class MainActivity extends AppCompatActivity{
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 
-    ImageView image1, image2,image3,image4, image5, image6, image7, image8, image9, image10, image11, image12, image13, image14, image15, image16, image17, image18, image19, image20, image21;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    //ImageView image1, image2,image3,image4, image5, image6, image7, image8, image9, image10, image11, image12, image13, image14, image15, image16, image17, image18, image19, image20, image21;
     GridView gridView;
     ImageAdapter imageAdapter;
     private final int GET_GALLERY_IMAGE=200;
     Button button;
     //ImageView image;
+
+    PbAdapter adapter=null;
+    ArrayList<Phonebook> list=null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +69,41 @@ public class MainActivity extends AppCompatActivity{
         spec.setIndicator(null, ResourcesCompat.getDrawable(getResources(), R.drawable.tab_icon1, null));
         spec.setContent(R.id.tab_content1);
         host.addTab(spec);
+
+        //BUTTON
+        Button addbt=(Button)findViewById(R.id.btn);
+        addbt.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getApplicationContext(), Add.class);
+                startActivity(intent);
+            }
+        });
+
+        //LISTVIEW
+        ListView listview = (ListView)findViewById(R.id.pb_listview);
+        list = new ArrayList<Phonebook>();
+
+        String json=getJsonString();
+        Phonebook pb=new Phonebook(json);
+        for (int i = 0; i < pb.getList().size(); i++) {
+            list.add(pb.getList().get(i));
+        }
+
+        adapter = new PbAdapter(this,R.layout.pb_item, list);
+        adapter.notifyDataSetChanged();
+        listview.setAdapter(adapter);
+
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView adapterView, View view, int position, long id) {
+                Intent intent=new Intent(getApplicationContext(),Next.class);
+
+                intent.putExtra("name", list.get(position).getName());
+                intent.putExtra("number", list.get(position).getNumber());
+                startActivity(intent);
+            }
+        });
 
         spec = host.newTabSpec("tab2");
         spec.setIndicator(null, ResourcesCompat.getDrawable(getResources(), R.drawable.tab_icon2, null));
@@ -294,8 +353,32 @@ public class MainActivity extends AppCompatActivity{
         startActivity(intent);
     }
     */
+    private String getJsonString()
+    {
+        String json = "";
 
-    public static void main(String[] args){
-        System.out.println("Hello world");
+        try {
+            InputStream is = getAssets().open("db.json");
+            int fileSize = is.available();
+
+            byte[] buffer = new byte[fileSize];
+            is.read(buffer);
+            is.close();
+
+            json = new String(buffer, "UTF-8");
+        }
+        catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }
+
+        return json;
     }
+
+    @Override
+    public void onClick(View view) {
+
+    }
+
+
 }
