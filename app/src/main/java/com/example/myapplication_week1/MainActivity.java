@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.Button;
 import android.view.ViewGroup;
@@ -44,6 +45,50 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.os.CountDownTimer;
+import android.os.Message;
+import android.os.Handler;
+import android.os.Bundle;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+
+import java.util.logging.LogRecord;
+
+
+class Ladder extends View{
+    public Ladder(Context context){
+        super(context);
+    }
+    public Ladder(Context context, AttributeSet att){
+        super(context,att);
+    }
+    public Ladder(Context context, AttributeSet att, int a){
+        super(context,att, a);
+    }
+    int w=100;
+    int h=80;
+    int px=0;
+    int py=0;
+    int dx=10;
+    int dy=0;
+    int x1,y1,x2,y2;
+
+    @Override
+    public void onDraw(Canvas c){
+        Paint paint = new Paint();
+        paint.setColor(Color.DKGRAY);
+        int bx = getWidth()/2;
+        int by = getHeight()/2;
+        c.drawRect(x1+bx,y1+by,x2+bx,y2+by, paint);
+
+    }
+}
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -51,11 +96,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     GridView gridView;
     ImageAdapter imageAdapter;
     private final int GET_GALLERY_IMAGE=200;
-    Button button;
+    Button button, tab3_btn, tab3_1, tab3_2, tab3_3, tab3_4, tab3_5, name_btn ;
+    Button tab3_1_dst, tab3_2_dst, tab3_3_dst, tab3_4_dst, tab3_5_dst;
+
     //ImageView image;
 
     PbAdapter adapter=null;
     ArrayList<Phonebook> list=null;
+
+    Handler mHandler;
+    int ct=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,55 +208,383 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        /*image = (ImageView)findViewById(R.id.mainimage);
-        image1 = (ImageView)findViewById(R.id.image1);
-        image1.setOnClickListener(this);
-        image2 = (ImageView)findViewById(R.id.image2);
-        image2.setOnClickListener(this);
-        image3 = (ImageView)findViewById(R.id.image3);
-        image3.setOnClickListener(this);
-        image4 = (ImageView)findViewById(R.id.image4);
-        image4.setOnClickListener(this);
-        image5 = (ImageView)findViewById(R.id.image5);
-        image5.setOnClickListener(this);
-        image6 = (ImageView)findViewById(R.id.image6);
-        image6.setOnClickListener(this);
-        image7 = (ImageView)findViewById(R.id.image7);
-        image7.setOnClickListener(this);
-        image8 = (ImageView)findViewById(R.id.image8);
-        image8.setOnClickListener(this);
-        image9 = (ImageView)findViewById(R.id.image9);
-        image9.setOnClickListener(this);
-        image10 = (ImageView)findViewById(R.id.image10);
-        image10.setOnClickListener(this);
-        image11 = (ImageView)findViewById(R.id.image11);
-        image11.setOnClickListener(this);
-        image12 = (ImageView)findViewById(R.id.image12);
-        image12.setOnClickListener(this);
-        image13 = (ImageView)findViewById(R.id.image13);
-        image13.setOnClickListener(this);
-        image14 = (ImageView)findViewById(R.id.image14);
-        image14.setOnClickListener(this);
-        image15 = (ImageView)findViewById(R.id.image15);
-        image15.setOnClickListener(this);
-        image16 = (ImageView)findViewById(R.id.image16);
-        image16.setOnClickListener(this);
-        image17 = (ImageView)findViewById(R.id.image17);
-        image17.setOnClickListener(this);
-        image18 = (ImageView)findViewById(R.id.image18);
-        image18.setOnClickListener(this);
-        image19 = (ImageView)findViewById(R.id.image19);
-        image19.setOnClickListener(this);
-        image20 = (ImageView)findViewById(R.id.image20);
-        image20.setOnClickListener(this);
-        image21 = (ImageView)findViewById(R.id.image21);
-        image21.setOnClickListener(this);
-        */
-
         spec = host.newTabSpec("tab3");
         spec.setIndicator(null, ResourcesCompat.getDrawable(getResources(), R.drawable.tab_icon3, null));
         spec.setContent(R.id.tab_content3);
         host.addTab(spec);
+
+        tab3_btn = (Button)findViewById(R.id.tab3_btn);
+        tab3_1 = (Button)findViewById(R.id.btn1);
+        tab3_2 = (Button)findViewById(R.id.btn2);
+        tab3_3 = (Button)findViewById(R.id.btn3);
+        tab3_4 = (Button)findViewById(R.id.btn4);
+        tab3_5 = (Button)findViewById(R.id.btn5);
+
+        tab3_1_dst = (Button)findViewById(R.id.btn1_dst);
+        tab3_2_dst = (Button)findViewById(R.id.btn2_dst);
+        tab3_3_dst = (Button)findViewById(R.id.btn3_dst);
+        tab3_4_dst = (Button)findViewById(R.id.btn4_dst);
+        tab3_5_dst = (Button)findViewById(R.id.btn5_dst);
+
+
+        name_btn = (Button)findViewById(R.id.btn_name);
+        tab3_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText num = (EditText)findViewById(R.id.num);
+                int count = Integer.parseInt(num.getText().toString());
+                name_btn.setVisibility(View.VISIBLE);
+                EditText name1 = (EditText)findViewById(R.id.btn1_name);
+                EditText name2 = (EditText)findViewById(R.id.btn2_name);
+                EditText name3 = (EditText)findViewById(R.id.btn3_name);
+                EditText name4 = (EditText)findViewById(R.id.btn4_name);
+                EditText name5 = (EditText)findViewById(R.id.btn5_name);
+
+                EditText dst1 = (EditText)findViewById(R.id.text1_dst);
+                EditText dst2 = (EditText)findViewById(R.id.text2_dst);
+                EditText dst3 = (EditText)findViewById(R.id.text3_dst);
+                EditText dst4 = (EditText)findViewById(R.id.text4_dst);
+                EditText dst5 = (EditText)findViewById(R.id.text5_dst);
+
+                if(count==2){
+
+                    tab3_1.setVisibility(View.VISIBLE);
+                    name1.setVisibility(View.VISIBLE);
+                    tab3_2.setVisibility(View.VISIBLE);
+                    name2.setVisibility(View.VISIBLE);
+                    tab3_3.setVisibility(View.GONE);
+                    name3.setVisibility(View.GONE);
+                    tab3_4.setVisibility(View.GONE);
+                    name4.setVisibility(View.GONE);
+                    tab3_5.setVisibility(View.GONE);
+                    name5.setVisibility(View.GONE);
+
+                    tab3_1_dst.setVisibility(View.VISIBLE);
+                    dst1.setVisibility(View.VISIBLE);
+                    tab3_2_dst.setVisibility(View.VISIBLE);
+                    dst2.setVisibility(View.VISIBLE);
+                    tab3_3_dst.setVisibility(View.GONE);
+                    dst3.setVisibility(View.GONE);
+                    tab3_4_dst.setVisibility(View.GONE);
+                    dst4.setVisibility(View.GONE);
+                    tab3_5_dst.setVisibility(View.GONE);
+                    dst5.setVisibility(View.GONE);
+
+
+                    name_btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            for(int a=1; a<=2; a++){
+                                int k = getResources().getIdentifier("line"+a, "id", getPackageName());
+                                LinearLayout line=findViewById(k);
+                                line.setVisibility(View.VISIBLE);
+                            }
+                            boolean check = true;
+                            for(int a=1; a<=7; a++){
+                                for(int b=1; b<=1; b++){
+                                    int k = getResources().getIdentifier("line"+b+"_"+a, "id",getPackageName());
+                                    ImageView line = findViewById(k);
+                                    line.setVisibility(View.INVISIBLE);
+                                    if(b==1&&Math.random()<0.5){
+                                        line = findViewById(k);
+                                        line.setVisibility(View.VISIBLE);
+                                        check = false;
+                                        continue;
+                                    }
+                                    else if(Math.random()<0.5&&check){
+                                        line = findViewById(k);
+                                        line.setVisibility(View.VISIBLE);
+                                        check = false;
+                                        continue;
+                                    }
+                                    check = true;
+                                }
+                            }
+                            EditText name1 = (EditText)findViewById(R.id.btn1_name);
+                            EditText name2 = (EditText)findViewById(R.id.btn2_name);
+                            EditText dst1 = (EditText)findViewById(R.id.text1_dst);
+                            EditText dst2 = (EditText)findViewById(R.id.text2_dst);
+
+                            tab3_1.setText(name1.getText().toString());
+                            tab3_2.setText(name2.getText().toString());
+                            tab3_1_dst.setText(dst1.getText().toString());
+                            tab3_2_dst.setText(dst2.getText().toString());
+                            name1.setVisibility(View.GONE);
+                            name2.setVisibility(View.GONE);
+                            dst1.setVisibility(View.GONE);
+                            dst2.setVisibility(View.GONE);
+                            name_btn.setVisibility(View.GONE);
+                        }
+                    });
+                }
+                else if(count==3){
+
+                    tab3_1.setVisibility(View.VISIBLE);
+                    name1.setVisibility(View.VISIBLE);
+                    tab3_2.setVisibility(View.VISIBLE);
+                    name2.setVisibility(View.VISIBLE);
+                    tab3_3.setVisibility(View.VISIBLE);
+                    name3.setVisibility(View.VISIBLE);
+                    tab3_4.setVisibility(View.GONE);
+                    name4.setVisibility(View.GONE);
+                    tab3_5.setVisibility(View.GONE);
+                    name5.setVisibility(View.GONE);
+
+                    tab3_1_dst.setVisibility(View.VISIBLE);
+                    dst1.setVisibility(View.VISIBLE);
+                    tab3_2_dst.setVisibility(View.VISIBLE);
+                    dst2.setVisibility(View.VISIBLE);
+                    tab3_3_dst.setVisibility(View.VISIBLE);
+                    dst3.setVisibility(View.VISIBLE);
+                    tab3_4_dst.setVisibility(View.GONE);
+                    dst4.setVisibility(View.GONE);
+                    tab3_5_dst.setVisibility(View.GONE);
+                    dst5.setVisibility(View.GONE);
+
+
+                    name_btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            for(int a=1; a<=3; a++){
+                                int k = getResources().getIdentifier("line"+a, "id", getPackageName());
+                                LinearLayout line=findViewById(k);
+                                line.setVisibility(View.VISIBLE);
+                            }
+                            boolean check = true;
+                            for(int a=1; a<=7; a++){
+                                for(int b=1; b<=2; b++){
+                                    int k = getResources().getIdentifier("line"+b+"_"+a, "id",getPackageName());
+                                    ImageView line = findViewById(k);
+                                    line.setVisibility(View.INVISIBLE);
+                                    if(b==1&&Math.random()<0.5){
+                                        line = findViewById(k);
+                                        line.setVisibility(View.VISIBLE);
+                                        check = false;
+                                        continue;
+                                    }
+                                    else if(Math.random()<0.5&&check){
+                                        line = findViewById(k);
+                                        line.setVisibility(View.VISIBLE);
+                                        check = false;
+                                        continue;
+                                    }
+                                    check = true;
+                                }
+                            }
+                            EditText name1 = (EditText)findViewById(R.id.btn1_name);
+                            EditText name2 = (EditText)findViewById(R.id.btn2_name);
+                            EditText name3 = (EditText)findViewById(R.id.btn3_name);
+                            EditText dst1 = (EditText)findViewById(R.id.text1_dst);
+                            EditText dst2 = (EditText)findViewById(R.id.text2_dst);
+                            EditText dst3 = (EditText)findViewById(R.id.text3_dst);
+
+                            tab3_1.setText(name1.getText().toString());
+                            tab3_2.setText(name2.getText().toString());
+                            tab3_3.setText(name3.getText().toString());
+                            tab3_1_dst.setText(dst1.getText().toString());
+                            tab3_2_dst.setText(dst2.getText().toString());
+                            tab3_3_dst.setText(dst3.getText().toString());
+
+                            name1.setVisibility(View.GONE);
+                            name2.setVisibility(View.GONE);
+                            name3.setVisibility(View.GONE);
+
+                            dst1.setVisibility(View.GONE);
+                            dst2.setVisibility(View.GONE);
+                            dst3.setVisibility(View.GONE);
+                            name_btn.setVisibility(View.GONE);
+                        }
+                    });
+                }
+                else if(count==4){
+
+                    tab3_1.setVisibility(View.VISIBLE);
+                    name1.setVisibility(View.VISIBLE);
+                    tab3_2.setVisibility(View.VISIBLE);
+                    name2.setVisibility(View.VISIBLE);
+                    tab3_3.setVisibility(View.VISIBLE);
+                    name3.setVisibility(View.VISIBLE);
+                    tab3_4.setVisibility(View.VISIBLE);
+                    name4.setVisibility(View.VISIBLE);
+                    tab3_5.setVisibility(View.GONE);
+                    name5.setVisibility(View.GONE);
+
+                    tab3_1_dst.setVisibility(View.VISIBLE);
+                    dst1.setVisibility(View.VISIBLE);
+                    tab3_2_dst.setVisibility(View.VISIBLE);
+                    dst2.setVisibility(View.VISIBLE);
+                    tab3_3_dst.setVisibility(View.VISIBLE);
+                    dst3.setVisibility(View.VISIBLE);
+                    tab3_4_dst.setVisibility(View.VISIBLE);
+                    dst4.setVisibility(View.VISIBLE);
+                    tab3_5_dst.setVisibility(View.GONE);
+                    dst5.setVisibility(View.GONE);
+
+
+                    name_btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            for(int a=1; a<=4; a++){
+                                int k = getResources().getIdentifier("line"+a, "id", getPackageName());
+                                LinearLayout line=findViewById(k);
+                                line.setVisibility(View.VISIBLE);
+                            }
+                            boolean check = true;
+                            for(int a=1; a<=7; a++){
+                                for(int b=1; b<=3; b++){
+                                    int k = getResources().getIdentifier("line"+b+"_"+a, "id",getPackageName());
+                                    ImageView line = findViewById(k);
+                                    line.setVisibility(View.INVISIBLE);
+                                    if(b==1&&Math.random()<0.5){
+                                        line = findViewById(k);
+                                        line.setVisibility(View.VISIBLE);
+                                        check = false;
+                                        continue;
+                                    }
+                                    else if(Math.random()<0.5&&check){
+                                        line = findViewById(k);
+                                        line.setVisibility(View.VISIBLE);
+                                        check = false;
+                                        continue;
+                                    }
+                                    check = true;
+                                }
+                            }
+                            EditText name1 = (EditText)findViewById(R.id.btn1_name);
+                            EditText name2 = (EditText)findViewById(R.id.btn2_name);
+                            EditText name3 = (EditText)findViewById(R.id.btn3_name);
+                            EditText name4 = (EditText)findViewById(R.id.btn4_name);
+
+                            EditText dst1 = (EditText)findViewById(R.id.text1_dst);
+                            EditText dst2 = (EditText)findViewById(R.id.text2_dst);
+                            EditText dst3 = (EditText)findViewById(R.id.text3_dst);
+                            EditText dst4 = (EditText)findViewById(R.id.text4_dst);
+
+                            tab3_1.setText(name1.getText().toString());
+                            tab3_2.setText(name2.getText().toString());
+                            tab3_3.setText(name3.getText().toString());
+                            tab3_4.setText(name4.getText().toString());
+
+                            tab3_1_dst.setText(dst1.getText().toString());
+                            tab3_2_dst.setText(dst2.getText().toString());
+                            tab3_3_dst.setText(dst3.getText().toString());
+                            tab3_4_dst.setText(dst4.getText().toString());
+
+                            name1.setVisibility(View.GONE);
+                            name2.setVisibility(View.GONE);
+                            name3.setVisibility(View.GONE);
+                            name4.setVisibility(View.GONE);
+
+                            dst1.setVisibility(View.GONE);
+                            dst2.setVisibility(View.GONE);
+                            dst3.setVisibility(View.GONE);
+                            dst4.setVisibility(View.GONE);
+
+                            name_btn.setVisibility(View.GONE);
+                        }
+                    });
+                }
+                else if(count==5){
+
+                    tab3_1.setVisibility(View.VISIBLE);
+                    name1.setVisibility(View.VISIBLE);
+                    tab3_2.setVisibility(View.VISIBLE);
+                    name2.setVisibility(View.VISIBLE);
+                    tab3_3.setVisibility(View.VISIBLE);
+                    name3.setVisibility(View.VISIBLE);
+                    tab3_4.setVisibility(View.VISIBLE);
+                    name4.setVisibility(View.VISIBLE);
+                    tab3_5.setVisibility(View.VISIBLE);
+                    name5.setVisibility(View.VISIBLE);
+
+                    tab3_1_dst.setVisibility(View.VISIBLE);
+                    dst1.setVisibility(View.VISIBLE);
+                    tab3_2_dst.setVisibility(View.VISIBLE);
+                    dst2.setVisibility(View.VISIBLE);
+                    tab3_3_dst.setVisibility(View.VISIBLE);
+                    dst3.setVisibility(View.VISIBLE);
+                    tab3_4_dst.setVisibility(View.VISIBLE);
+                    dst4.setVisibility(View.VISIBLE);
+                    tab3_5_dst.setVisibility(View.VISIBLE);
+                    dst5.setVisibility(View.VISIBLE);
+
+
+                    name_btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            for(int a=1; a<=5; a++){
+                                int k = getResources().getIdentifier("line"+a, "id", getPackageName());
+                                LinearLayout line=findViewById(k);
+                                line.setVisibility(View.VISIBLE);
+                            }
+                            boolean check = true;
+                            for(int a=1; a<=7; a++){
+                                for(int b=1; b<=4; b++){
+                                    int k = getResources().getIdentifier("line"+b+"_"+a, "id",getPackageName());
+                                    ImageView line = findViewById(k);
+                                    line.setVisibility(View.INVISIBLE);
+                                    if(b==1&&Math.random()<0.5){
+                                        line = findViewById(k);
+                                        line.setVisibility(View.VISIBLE);
+                                        check = false;
+                                        continue;
+                                    }
+                                    else if(Math.random()<0.5&&check){
+                                        line = findViewById(k);
+                                        line.setVisibility(View.VISIBLE);
+                                        check = false;
+                                        continue;
+                                    }
+                                    check = true;
+                                }
+                            }
+                            EditText name1 = (EditText)findViewById(R.id.btn1_name);
+                            EditText name2 = (EditText)findViewById(R.id.btn2_name);
+                            EditText name3 = (EditText)findViewById(R.id.btn3_name);
+                            EditText name4 = (EditText)findViewById(R.id.btn4_name);
+                            EditText name5 = (EditText)findViewById(R.id.btn5_name);
+
+                            EditText dst1 = (EditText)findViewById(R.id.text1_dst);
+                            EditText dst2 = (EditText)findViewById(R.id.text2_dst);
+                            EditText dst3 = (EditText)findViewById(R.id.text3_dst);
+                            EditText dst4 = (EditText)findViewById(R.id.text4_dst);
+                            EditText dst5 = (EditText)findViewById(R.id.text5_dst);
+
+
+                            tab3_1.setText(name1.getText().toString());
+                            tab3_2.setText(name2.getText().toString());
+                            tab3_3.setText(name3.getText().toString());
+                            tab3_4.setText(name4.getText().toString());
+                            tab3_5.setText(name5.getText().toString());
+
+                            tab3_1_dst.setText(dst1.getText().toString());
+                            tab3_2_dst.setText(dst2.getText().toString());
+                            tab3_3_dst.setText(dst3.getText().toString());
+                            tab3_4_dst.setText(dst4.getText().toString());
+                            tab3_5_dst.setText(dst5.getText().toString());
+
+                            name1.setVisibility(View.GONE);
+                            name2.setVisibility(View.GONE);
+                            name3.setVisibility(View.GONE);
+                            name4.setVisibility(View.GONE);
+                            name5.setVisibility(View.GONE);
+
+                            dst1.setVisibility(View.GONE);
+                            dst2.setVisibility(View.GONE);
+                            dst3.setVisibility(View.GONE);
+                            dst4.setVisibility(View.GONE);
+                            dst5.setVisibility(View.GONE);
+
+                            name_btn.setVisibility(View.GONE);
+                        }
+                    });
+                }
+
+            }
+        });
+
+
+
 
     }
 
@@ -283,76 +661,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    /*
-    @Override
-    public void onClick(View v) {
-        Intent intent = new Intent(getApplicationContext(), ImageClicked.class);
-        if(v==image1){
-            intent.putExtra("image", Integer.toString(R.drawable.image1));
-        }
-        else if(v==image2){
-            intent.putExtra("image", Integer.toString(R.drawable.image2));
-        }
-        else if(v==image3){
-            intent.putExtra("image", Integer.toString(R.drawable.image3));
-        }
-        else if(v==image4){
-            intent.putExtra("image", Integer.toString(R.drawable.image4));
-        }
-        else if(v==image5){
-            intent.putExtra("image", Integer.toString(R.drawable.image5));
-        }
-        else if(v==image6){
-            intent.putExtra("image", Integer.toString(R.drawable.image6));
-        }
-        else if(v==image7){
-            intent.putExtra("image", Integer.toString(R.drawable.image7));
-        }
-        else if(v==image8){
-            intent.putExtra("image", Integer.toString(R.drawable.image8));
-        }
-        else if(v==image9){
-            intent.putExtra("image", Integer.toString(R.drawable.image9));
-        }
-        else if(v==image10){
-            intent.putExtra("image", Integer.toString(R.drawable.image10));
-        }
-        else if(v==image11){
-            intent.putExtra("image", Integer.toString(R.drawable.image11));
-        }
-        else if(v==image12){
-            intent.putExtra("image", Integer.toString(R.drawable.image12));
-        }
-        else if(v==image13){
-            intent.putExtra("image", Integer.toString(R.drawable.image13));
-        }
-        else if(v==image14){
-            intent.putExtra("image", Integer.toString(R.drawable.image14));
-        }
-        else if(v==image15){
-            intent.putExtra("image", Integer.toString(R.drawable.image15));
-        }
-        else if(v==image16){
-            intent.putExtra("image", Integer.toString(R.drawable.image16));
-        }
-        else if(v==image17){
-            intent.putExtra("image", Integer.toString(R.drawable.image17));
-        }
-        else if(v==image18){
-            intent.putExtra("image", Integer.toString(R.drawable.image18));
-        }
-        else if(v==image19){
-            intent.putExtra("image", Integer.toString(R.drawable.image19));
-        }
-        else if(v==image20){
-            intent.putExtra("image", Integer.toString(R.drawable.image20));
-        }
-        else if(v==image21){
-            intent.putExtra("image", Integer.toString(R.drawable.image21));
-        }
-        startActivity(intent);
-    }
-    */
+
     private String getJsonString()
     {
         String json = "";
@@ -379,6 +688,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
 
     }
+/*
+    public void mOnClick(View v){
+        switch (v.getId()){
+            case R.id.btn1:
+                mHandler=new Handler(){
+                    public void handleMessage(Message msg){
+                        Ladder mv = (Ladder)findViewById(R.id.mv);
+                        mv.px+=mv.dx;
+                        mv.py+=mv.dy;
+
+                        mv.x1=(mv.px-mv.w/2);
+                        mv.x2= (mv.px + mv.w/2);
+                        mv.y1= (mv.py - mv.h/2);
+                        mv.y2= (mv.py + mv.h/2);
+                        mv.invalidate();
+                        mHandler.sendEmptyMessageDelayed(10, 500);
+
+                    }
+                };
+                mHandler.sendEmptyMessageDelayed(10,0);
+                break;
+
+            case R.id.btn2:
+                mHandler.removeMessages(10);
+                break;
+        };
 
 
+    }
+*/
 }
