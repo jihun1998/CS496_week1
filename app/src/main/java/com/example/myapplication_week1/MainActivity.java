@@ -8,6 +8,7 @@ import android.content.Intent;
 //import android.graphics.Bitmap;
 //import android.graphics.BitmapFactory;
 import android.content.SharedPreferences;
+import android.graphics.ImageFormat;
 import android.net.Uri;
 import android.os.Bundle;
 //import android.provider.ContactsContract;
@@ -185,6 +186,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         spec.setIndicator("GALLERY");
         spec.setContent(R.id.tab_content2);
         host.addTab(spec);
+        final int[] viewnum = new int[21];
+        final int[] mostviewNum = {0};
+        final int[] secondNum = {0};
+        final int[] thirdNum = {0};
+        final int[] mostviewImg = {0};
+        final int[] secondImg = {0};
+        final int[] thirdImg = {0};
+        final ImageView mostViewd = (ImageView)findViewById(R.id.mostView);
+        final ImageView second = (ImageView)findViewById(R.id.second);
+        final ImageView third = (ImageView)findViewById(R.id.third);
+        final SharedPreferences sp2 = getSharedPreferences("gallery",MODE_PRIVATE);
+
 
         button = (Button)findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
@@ -223,14 +236,96 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageAdapter.addItem(new ImageItem(R.drawable.image21));
         gridView.setAdapter(imageAdapter);
 
+        mostviewImg[0]=sp2.getInt("most",0);
+        secondImg[0]=sp2.getInt("second",0);
+        thirdImg[0]=sp2.getInt("third",0);
+        if(mostviewImg[0]!=0) {
+            int k = getResources().getIdentifier("image" + mostviewImg[0], "drawable", getPackageName());
+            mostViewd.setImageResource(k);
+        }
+        if(secondImg[0]!=0) {
+            int k = getResources().getIdentifier("image" + secondImg[0], "drawable", getPackageName());
+            second.setImageResource(k);
+        }
+        if(thirdImg[0]!=0) {
+            int k = getResources().getIdentifier("image" + thirdImg[0], "drawable", getPackageName());
+            third.setImageResource(k);
+        }
+        final SharedPreferences.Editor editor = sp2.edit();
+
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getApplicationContext(), ImageClicked.class);
 
+                int num = sp2.getInt(Integer.toString(i),0);
+                num+=1;
+                editor.putInt(Integer.toString(i),num);
+                editor.commit();
+                for(int a=0; a<21; a++) {
+                    viewnum[a] = sp2.getInt(Integer.toString(a),0);
+                    if(mostviewNum[0] < viewnum[a]){
+                        mostviewNum[0] = viewnum[a];
+                        int temp = mostviewImg[0];
+                        int temp2 = secondImg[0];
+                        mostviewImg[0] = a+1;
+                        secondImg[0]=temp;
+
+                        thirdImg[0]=temp2;
+
+                    }
+                    if(viewnum[a]>secondNum[0]&&mostviewImg[0]!=a+1&&viewnum[a]<=mostviewNum[0]){
+                        secondNum[0]=viewnum[a];
+                        int temp = secondImg[0];
+                        secondImg[0]=a+1;
+
+                        thirdImg[0]=temp;
+
+                    }
+                    if(viewnum[a]>thirdNum[0]&&secondImg[0]!=a+1&&mostviewImg[0]!=a+1&&viewnum[a]<=secondNum[0]){
+                        thirdNum[0]=viewnum[a];
+                        thirdImg[0]=a+1;
+
+                    }
+                }
+                if(mostviewImg[0]!=0) {
+                    int k = getResources().getIdentifier("image" + mostviewImg[0], "drawable", getPackageName());
+                    mostViewd.setImageResource(k);
+                }
+                if(secondImg[0]!=0) {
+                    int k = getResources().getIdentifier("image" + secondImg[0], "drawable", getPackageName());
+                    second.setImageResource(k);
+                }
+                if(thirdImg[0]!=0) {
+                    int k = getResources().getIdentifier("image" + thirdImg[0], "drawable", getPackageName());
+                    third.setImageResource(k);
+                }
+                editor.putInt("most",mostviewImg[0]);
+                editor.putInt("second",secondImg[0]);
+                editor.putInt("third",thirdImg[0]);
+                editor.commit();
                 intent.putExtra("image", Integer.toString((imageAdapter.getItem(i).getImage())));
                 startActivity(intent);
 
+            }
+        });
+        Button reset = (Button)findViewById(R.id.reset);
+        reset.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                for(int a=0; a<21; a++){
+                    editor.putInt(Integer.toString(a),0);
+                }
+                mostviewImg[0] = 0;
+                secondImg[0] = 0;
+                thirdImg[0] = 0;
+                editor.putInt("most",mostviewImg[0]);
+                editor.putInt("second",secondImg[0]);
+                editor.putInt("third",thirdImg[0]);
+                editor.commit();
+                mostViewd.setImageResource(0);
+                second.setImageResource(0);
+                third.setImageResource(0);
             }
         });
 
