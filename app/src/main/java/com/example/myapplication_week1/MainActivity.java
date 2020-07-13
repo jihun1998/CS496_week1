@@ -12,6 +12,9 @@ import android.os.Bundle;
 //import android.provider.ContactsContract;
 import android.provider.MediaStore;
 //import android.util.Base64;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -75,20 +78,25 @@ class Ladder extends View{
     int h=80;
     int px=0;
     int py=0;
-    int dx=10;
-    int dy=0;
+    int dx=11;
+    int dy=11;
+
     int x1,y1,x2,y2;
+    int bx;
+    int by ;
 
     @Override
     public void onDraw(Canvas c){
+
         Paint paint = new Paint();
         paint.setColor(Color.DKGRAY);
-        int bx = getWidth()/2;
-        int by = getHeight()/2;
+
         c.drawRect(x1+bx,y1+by,x2+bx,y2+by, paint);
 
     }
 }
+
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -96,6 +104,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     GridView gridView;
     ImageAdapter imageAdapter;
     private final int GET_GALLERY_IMAGE=200;
+
+
     Button button, tab3_btn, tab3_1, tab3_2, tab3_3, tab3_4, tab3_5, name_btn ;
     Button tab3_1_dst, tab3_2_dst, tab3_3_dst, tab3_4_dst, tab3_5_dst;
 
@@ -104,8 +114,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     PbAdapter adapter=null;
     ArrayList<Phonebook> list=null;
 
+    Handler mdHandler, mlHandler, mrHandler;
     Handler mHandler;
     int ct=0;
+    final int[][] path=new int[7][5];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -226,6 +238,79 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tab3_4_dst = (Button)findViewById(R.id.btn4_dst);
         tab3_5_dst = (Button)findViewById(R.id.btn5_dst);
 
+        final Ladder mv = (Ladder)findViewById(R.id.mv);
+        final int[] check = {0};
+
+        final int[] line = {0};
+        final int[] floor = {0};
+        final int[] down = {0};
+        final int[] side = {0};
+        mHandler = new Handler(){
+            public void handleMessage(Message msg){
+                if(down[0]<12){
+                    mv.py +=mv.dy;
+                    mv.x1= (mv.px - mv.w/2);
+                    mv.x2= (mv.px + mv.w/2);
+                    mv.y1= (mv.py - mv.h/2);
+                    mv.y2= (mv.py + mv.h/2);
+                    mv.invalidate();
+                    down[0] +=1;
+                    if(down[0] ==11&& floor[0] ==7){
+                        mv.py +=mv.dy*10;
+                        mv.x1= (mv.px - mv.w/2);
+                        mv.x2= (mv.px + mv.w/2);
+                        mv.y1= (mv.py - mv.h/2);
+                        mv.y2= (mv.py + mv.h/2);
+                        mv.invalidate();
+                        mHandler.removeMessages(10);
+                    }
+                    mHandler.sendEmptyMessageDelayed(10,30);
+                }
+                else if(floor[0]==7){
+                    mv.py +=mv.dy*10;
+                    mv.x1= (mv.px - mv.w/2);
+                    mv.x2= (mv.px + mv.w/2);
+                    mv.y1= (mv.py - mv.h/2);
+                    mv.y2= (mv.py + mv.h/2);
+                    mv.invalidate();
+                    mHandler.removeMessages(10);
+                }
+
+                else if(path[floor[0]][line[0]]==1&& side[0]<24){
+                    mv.px +=mv.dx;
+                    mv.x1= (mv.px - mv.w/2);
+                    mv.x2= (mv.px + mv.w/2);
+                    mv.y1= (mv.py - mv.h/2);
+                    mv.y2= (mv.py + mv.h/2);
+                    mv.invalidate();
+                    side[0] +=1;
+                    if(side[0] ==24){
+                        line[0] +=1;
+                    }
+                    mHandler.sendEmptyMessageDelayed(10,30);
+                }
+                else if(line[0] >0&&path[floor[0]][line[0] -1]==1&& side[0]<24){
+                    mv.px -=mv.dx;
+                    mv.x1= (mv.px - mv.w/2);
+                    mv.x2= (mv.px + mv.w/2);
+                    mv.y1= (mv.py - mv.h/2);
+                    mv.y2= (mv.py + mv.h/2);
+                    mv.invalidate();
+                    side[0] +=1;
+                    if(side[0] ==24){
+                        line[0] -=1;
+                    }
+                    mHandler.sendEmptyMessageDelayed(10,30);
+                }
+                else{
+                    down[0] =0;
+                    side[0] =0;
+                    floor[0] +=1;
+                    mHandler.sendEmptyMessageDelayed(10,30);
+                }
+
+            }
+        };
 
         name_btn = (Button)findViewById(R.id.btn_name);
         tab3_btn.setOnClickListener(new View.OnClickListener() {
@@ -234,6 +319,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 EditText num = (EditText)findViewById(R.id.num);
                 int count = Integer.parseInt(num.getText().toString());
                 name_btn.setVisibility(View.VISIBLE);
+                for(int a=1; a<=5; a++){
+                    int k = getResources().getIdentifier("line"+a, "id", getPackageName());
+                    LinearLayout line=findViewById(k);
+                    line.setVisibility(View.INVISIBLE);
+                }
+                for(int a=1; a<=7; a++){
+                    for(int b=1; b<=4; b++){
+                        int k = getResources().getIdentifier("line"+b+"_"+a, "id",getPackageName());
+                        ImageView line = findViewById(k);
+                        line.setVisibility(View.INVISIBLE);
+                    }
+                }
                 EditText name1 = (EditText)findViewById(R.id.btn1_name);
                 EditText name2 = (EditText)findViewById(R.id.btn2_name);
                 EditText name3 = (EditText)findViewById(R.id.btn3_name);
@@ -274,6 +371,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     name_btn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+
+                            for(int a=0; a<7; a++){
+                                for(int b=0; b<5; b++){
+                                    path[a][b]=0;
+                                }
+                            }
                             for(int a=1; a<=2; a++){
                                 int k = getResources().getIdentifier("line"+a, "id", getPackageName());
                                 LinearLayout line=findViewById(k);
@@ -285,16 +388,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     int k = getResources().getIdentifier("line"+b+"_"+a, "id",getPackageName());
                                     ImageView line = findViewById(k);
                                     line.setVisibility(View.INVISIBLE);
+                                    path[a-1][b-1]=0;
                                     if(b==1&&Math.random()<0.5){
                                         line = findViewById(k);
                                         line.setVisibility(View.VISIBLE);
                                         check = false;
+                                        path[a-1][b-1]=1;
                                         continue;
                                     }
                                     else if(Math.random()<0.5&&check){
                                         line = findViewById(k);
                                         line.setVisibility(View.VISIBLE);
                                         check = false;
+                                        path[a-1][b-1]=1;
                                         continue;
                                     }
                                     check = true;
@@ -314,6 +420,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             dst1.setVisibility(View.GONE);
                             dst2.setVisibility(View.GONE);
                             name_btn.setVisibility(View.GONE);
+                            tab3_1_dst.setClickable(false);
+                            tab3_2_dst.setClickable(false);
+
+                            tab3_1.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                    line[0] = 0;
+                                    floor[0] = 0;
+                                    down[0] = 0;
+                                    side[0] = 0;
+                                    mv.bx = 130;
+                                    mv.by = 0;
+                                    mv.px = 0;
+                                    mv.py = 0;
+                                    mHandler.sendEmptyMessageDelayed(10,200);
+
+                                }
+                            });
+                            tab3_2.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                    line[0] = 1;
+                                    floor[0] = 0;
+                                    down[0] = 0;
+                                    side[0] = 0;
+                                    mv.bx = 400;
+                                    mv.by = 0;
+                                    mv.px = 0;
+                                    mv.py = 0;
+                                    mHandler.sendEmptyMessageDelayed(10,200);
+                                }
+                            });
                         }
                     });
                 }
@@ -345,6 +485,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     name_btn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            for(int a=0; a<7; a++){
+                                for(int b=0; b<5; b++){
+                                    path[a][b]=0;
+                                }
+                            }
                             for(int a=1; a<=3; a++){
                                 int k = getResources().getIdentifier("line"+a, "id", getPackageName());
                                 LinearLayout line=findViewById(k);
@@ -356,16 +501,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     int k = getResources().getIdentifier("line"+b+"_"+a, "id",getPackageName());
                                     ImageView line = findViewById(k);
                                     line.setVisibility(View.INVISIBLE);
+                                    path[a-1][b-1]=0;
                                     if(b==1&&Math.random()<0.5){
                                         line = findViewById(k);
                                         line.setVisibility(View.VISIBLE);
                                         check = false;
+                                        path[a-1][b-1]=1;
                                         continue;
                                     }
                                     else if(Math.random()<0.5&&check){
                                         line = findViewById(k);
                                         line.setVisibility(View.VISIBLE);
                                         check = false;
+                                        path[a-1][b-1]=1;
                                         continue;
                                     }
                                     check = true;
@@ -393,6 +541,58 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             dst2.setVisibility(View.GONE);
                             dst3.setVisibility(View.GONE);
                             name_btn.setVisibility(View.GONE);
+                            tab3_1_dst.setClickable(false);
+                            tab3_2_dst.setClickable(false);
+                            tab3_3_dst.setClickable(false);
+
+                            tab3_1.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                    line[0] = 0;
+                                    floor[0] = 0;
+                                    down[0] = 0;
+                                    side[0] = 0;
+                                    mv.bx = 130;
+                                    mv.by = 0;
+                                    mv.px = 0;
+                                    mv.py = 0;
+                                    mHandler.sendEmptyMessageDelayed(10,200);
+
+                                }
+                            });
+                            tab3_2.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                    line[0] = 1;
+                                    floor[0] = 0;
+                                    down[0] = 0;
+                                    side[0] = 0;
+                                    mv.bx = 400;
+                                    mv.by = 0;
+                                    mv.px = 0;
+                                    mv.py = 0;
+                                    mHandler.sendEmptyMessageDelayed(10,200);
+
+                                }
+                            });
+                            tab3_3.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                    line[0] = 2;
+                                    floor[0] = 0;
+                                    down[0] = 0;
+                                    side[0] = 0;
+                                    mv.bx = 660;
+                                    mv.by = 0;
+                                    mv.px = 0;
+                                    mv.py = 0;
+                                    mHandler.sendEmptyMessageDelayed(10,200);
+
+                                }
+                            });
                         }
                     });
                 }
@@ -424,6 +624,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     name_btn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            for(int a=0; a<7; a++){
+                                for(int b=0; b<5; b++){
+                                    path[a][b]=0;
+                                }
+                            }
                             for(int a=1; a<=4; a++){
                                 int k = getResources().getIdentifier("line"+a, "id", getPackageName());
                                 LinearLayout line=findViewById(k);
@@ -435,16 +640,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     int k = getResources().getIdentifier("line"+b+"_"+a, "id",getPackageName());
                                     ImageView line = findViewById(k);
                                     line.setVisibility(View.INVISIBLE);
+                                    path[a-1][b-1]=0;
                                     if(b==1&&Math.random()<0.5){
                                         line = findViewById(k);
                                         line.setVisibility(View.VISIBLE);
                                         check = false;
+                                        path[a-1][b-1]=1;
                                         continue;
                                     }
                                     else if(Math.random()<0.5&&check){
                                         line = findViewById(k);
                                         line.setVisibility(View.VISIBLE);
                                         check = false;
+                                        path[a-1][b-1]=1;
                                         continue;
                                     }
                                     check = true;
@@ -481,6 +689,76 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             dst4.setVisibility(View.GONE);
 
                             name_btn.setVisibility(View.GONE);
+
+                            tab3_1_dst.setClickable(false);
+                            tab3_2_dst.setClickable(false);
+                            tab3_3_dst.setClickable(false);
+                            tab3_4_dst.setClickable(false);
+
+                            tab3_1.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                    line[0] = 0;
+                                    floor[0] = 0;
+                                    down[0] = 0;
+                                    side[0] = 0;
+                                    mv.bx = 130;
+                                    mv.by = 0;
+                                    mv.px = 0;
+                                    mv.py = 0;
+                                    mHandler.sendEmptyMessageDelayed(10,200);
+
+                                }
+                            });
+                            tab3_2.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                    line[0] = 1;
+                                    floor[0] = 0;
+                                    down[0] = 0;
+                                    side[0] = 0;
+                                    mv.bx = 400;
+                                    mv.by = 0;
+                                    mv.px = 0;
+                                    mv.py = 0;
+                                    mHandler.sendEmptyMessageDelayed(10,200);
+
+                                }
+                            });
+                            tab3_3.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                    line[0] = 2;
+                                    floor[0] = 0;
+                                    down[0] = 0;
+                                    side[0] = 0;
+                                    mv.bx = 660;
+                                    mv.by = 0;
+                                    mv.px = 0;
+                                    mv.py = 0;
+                                    mHandler.sendEmptyMessageDelayed(10,200);
+
+                                }
+                            });
+                            tab3_4.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                    line[0] = 3;
+                                    floor[0] = 0;
+                                    down[0] = 0;
+                                    side[0] = 0;
+                                    mv.bx = 940;
+                                    mv.by = 0;
+                                    mv.px = 0;
+                                    mv.py = 0;
+                                    mHandler.sendEmptyMessageDelayed(10,200);
+
+                                }
+                            });
                         }
                     });
                 }
@@ -512,6 +790,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     name_btn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            for(int a=0; a<7; a++){
+                                for(int b=0; b<5; b++){
+                                    path[a][b]=0;
+                                }
+                            }
                             for(int a=1; a<=5; a++){
                                 int k = getResources().getIdentifier("line"+a, "id", getPackageName());
                                 LinearLayout line=findViewById(k);
@@ -522,17 +805,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 for(int b=1; b<=4; b++){
                                     int k = getResources().getIdentifier("line"+b+"_"+a, "id",getPackageName());
                                     ImageView line = findViewById(k);
+                                    path[a-1][b-1]=0;
                                     line.setVisibility(View.INVISIBLE);
                                     if(b==1&&Math.random()<0.5){
                                         line = findViewById(k);
                                         line.setVisibility(View.VISIBLE);
                                         check = false;
+                                        path[a-1][b-1]=1;
                                         continue;
                                     }
                                     else if(Math.random()<0.5&&check){
                                         line = findViewById(k);
                                         line.setVisibility(View.VISIBLE);
                                         check = false;
+                                        path[a-1][b-1]=1;
                                         continue;
                                     }
                                     check = true;
@@ -576,6 +862,92 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             dst5.setVisibility(View.GONE);
 
                             name_btn.setVisibility(View.GONE);
+
+                            tab3_1_dst.setClickable(false);
+                            tab3_2_dst.setClickable(false);
+                            tab3_3_dst.setClickable(false);
+                            tab3_4_dst.setClickable(false);
+                            tab3_5_dst.setClickable(false);
+                            tab3_1.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                    line[0] = 0;
+                                    floor[0] = 0;
+                                    down[0] = 0;
+                                    side[0] = 0;
+                                    mv.bx = 130;
+                                    mv.by = 0;
+                                    mv.px = 0;
+                                    mv.py = 0;
+                                    mHandler.sendEmptyMessageDelayed(10,200);
+
+                                }
+                            });
+                            tab3_2.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                    line[0] = 1;
+                                    floor[0] = 0;
+                                    down[0] = 0;
+                                    side[0] = 0;
+                                    mv.bx = 400;
+                                    mv.by = 0;
+                                    mv.px = 0;
+                                    mv.py = 0;
+                                    mHandler.sendEmptyMessageDelayed(10,200);
+
+                                }
+                            });
+                            tab3_3.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                    line[0] = 2;
+                                    floor[0] = 0;
+                                    down[0] = 0;
+                                    side[0] = 0;
+                                    mv.bx = 660;
+                                    mv.by = 0;
+                                    mv.px = 0;
+                                    mv.py = 0;
+                                    mHandler.sendEmptyMessageDelayed(10,200);
+
+                                }
+                            });
+                            tab3_4.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                    line[0] = 3;
+                                    floor[0] = 0;
+                                    down[0] = 0;
+                                    side[0] = 0;
+                                    mv.bx = 940;
+                                    mv.by = 0;
+                                    mv.px = 0;
+                                    mv.py = 0;
+                                    mHandler.sendEmptyMessageDelayed(10,200);
+
+                                }
+                            });
+                            tab3_5.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                    line[0] = 4;
+                                    floor[0] = 0;
+                                    down[0] = 0;
+                                    side[0] = 0;
+                                    mv.bx = 1200;
+                                    mv.by = 0;
+                                    mv.px = 0;
+                                    mv.py = 0;
+                                    mHandler.sendEmptyMessageDelayed(10,200);
+
+                                }
+                            });
                         }
                     });
                 }
@@ -587,6 +959,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
