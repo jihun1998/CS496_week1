@@ -625,6 +625,8 @@
                             android:layout_gravity="center"
                             android:visibility="invisible"
                             android:clickable="false"
+                            android:background="@color/hotPink"
+                            android:textColor="@color/white"
                             android:id="@+id/result"
                             />
                     </FrameLayout>
