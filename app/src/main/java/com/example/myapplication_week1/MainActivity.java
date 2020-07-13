@@ -269,20 +269,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         int temp = mostviewImg[0];
                         int temp2 = secondImg[0];
                         mostviewImg[0] = a+1;
-                        secondImg[0]=temp;
+                        if(temp==mostviewImg[0]){
+                            continue;
+                        }
+                        if(temp2==mostviewImg[0]){
+                            secondImg[0]=temp;
+                            continue;
+                        }
 
+                        secondImg[0]=temp;
                         thirdImg[0]=temp2;
 
                     }
-                    if(viewnum[a]>secondNum[0]&&mostviewImg[0]!=a+1&&viewnum[a]<=mostviewNum[0]){
+                    else if((a+1)!=mostviewImg[0]&&viewnum[a]>secondNum[0]){
                         secondNum[0]=viewnum[a];
                         int temp = secondImg[0];
                         secondImg[0]=a+1;
+                        if(temp == secondImg[0]){
+                            continue;
+                        }
 
                         thirdImg[0]=temp;
 
                     }
-                    if(viewnum[a]>thirdNum[0]&&secondImg[0]!=a+1&&mostviewImg[0]!=a+1&&viewnum[a]<=secondNum[0]){
+                    else if((a+1)!=mostviewImg[0]&&(a+1)!=secondImg[0]&&viewnum[a]>thirdNum[0]){
                         thirdNum[0]=viewnum[a];
                         thirdImg[0]=a+1;
 
