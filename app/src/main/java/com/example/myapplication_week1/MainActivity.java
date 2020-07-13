@@ -12,6 +12,7 @@ import android.os.Bundle;
 //import android.provider.ContactsContract;
 import android.provider.MediaStore;
 //import android.util.Base64;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -78,8 +79,8 @@ class Ladder extends View{
     int h=80;
     int px=0;
     int py=0;
-    int dx=11;
-    int dy=11;
+    int dx=dpToPx(47)/12;
+    int dy=dpToPx(46)/12;
 
     int x1,y1,x2,y2;
     int bx;
@@ -94,7 +95,13 @@ class Ladder extends View{
         c.drawRect(x1+bx,y1+by,x2+bx,y2+by, paint);
 
     }
+
+    public int dpToPx(int sizeInDP){
+        int pxVal = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, sizeInDP, getResources().getDisplayMetrics());
+        return pxVal;
+    }
 }
+
 
 
 
@@ -267,7 +274,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     mHandler.sendEmptyMessageDelayed(10,30);
                 }
                 else if(floor[0]==7){
-                    mv.py +=mv.dy*10;
+                    mv.py +=mv.dy*30;
                     mv.x1= (mv.px - mv.w/2);
                     mv.x2= (mv.px + mv.w/2);
                     mv.y1= (mv.py - mv.h/2);
@@ -431,7 +438,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     floor[0] = 0;
                                     down[0] = 0;
                                     side[0] = 0;
-                                    mv.bx = 130;
+                                    mv.bx = dpToPx(40);
                                     mv.by = 0;
                                     mv.px = 0;
                                     mv.py = 0;
@@ -447,7 +454,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     floor[0] = 0;
                                     down[0] = 0;
                                     side[0] = 0;
-                                    mv.bx = 400;
+                                    mv.bx = dpToPx(130);
                                     mv.by = 0;
                                     mv.px = 0;
                                     mv.py = 0;
@@ -553,7 +560,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     floor[0] = 0;
                                     down[0] = 0;
                                     side[0] = 0;
-                                    mv.bx = 130;
+                                    mv.bx = dpToPx(40);
                                     mv.by = 0;
                                     mv.px = 0;
                                     mv.py = 0;
@@ -569,7 +576,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     floor[0] = 0;
                                     down[0] = 0;
                                     side[0] = 0;
-                                    mv.bx = 400;
+                                    mv.bx = dpToPx(130);
                                     mv.by = 0;
                                     mv.px = 0;
                                     mv.py = 0;
@@ -585,7 +592,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     floor[0] = 0;
                                     down[0] = 0;
                                     side[0] = 0;
-                                    mv.bx = 660;
+                                    mv.bx = dpToPx(220);
                                     mv.by = 0;
                                     mv.px = 0;
                                     mv.py = 0;
@@ -703,7 +710,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     floor[0] = 0;
                                     down[0] = 0;
                                     side[0] = 0;
-                                    mv.bx = 130;
+                                    mv.bx = dpToPx(40);
                                     mv.by = 0;
                                     mv.px = 0;
                                     mv.py = 0;
@@ -719,7 +726,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     floor[0] = 0;
                                     down[0] = 0;
                                     side[0] = 0;
-                                    mv.bx = 400;
+                                    mv.bx = dpToPx(130);
                                     mv.by = 0;
                                     mv.px = 0;
                                     mv.py = 0;
@@ -735,7 +742,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     floor[0] = 0;
                                     down[0] = 0;
                                     side[0] = 0;
-                                    mv.bx = 660;
+                                    mv.bx = dpToPx(220);
                                     mv.by = 0;
                                     mv.px = 0;
                                     mv.py = 0;
@@ -751,7 +758,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     floor[0] = 0;
                                     down[0] = 0;
                                     side[0] = 0;
-                                    mv.bx = 940;
+                                    mv.bx = dpToPx(310);
                                     mv.by = 0;
                                     mv.px = 0;
                                     mv.py = 0;
@@ -876,7 +883,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     floor[0] = 0;
                                     down[0] = 0;
                                     side[0] = 0;
-                                    mv.bx = 130;
+                                    mv.bx = dpToPx(40);
                                     mv.by = 0;
                                     mv.px = 0;
                                     mv.py = 0;
@@ -892,7 +899,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     floor[0] = 0;
                                     down[0] = 0;
                                     side[0] = 0;
-                                    mv.bx = 400;
+                                    mv.bx = dpToPx(130);
                                     mv.by = 0;
                                     mv.px = 0;
                                     mv.py = 0;
@@ -908,7 +915,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     floor[0] = 0;
                                     down[0] = 0;
                                     side[0] = 0;
-                                    mv.bx = 660;
+                                    mv.bx = dpToPx(220);
                                     mv.by = 0;
                                     mv.px = 0;
                                     mv.py = 0;
@@ -924,7 +931,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     floor[0] = 0;
                                     down[0] = 0;
                                     side[0] = 0;
-                                    mv.bx = 940;
+                                    mv.bx = dpToPx(310);
                                     mv.by = 0;
                                     mv.px = 0;
                                     mv.py = 0;
@@ -940,7 +947,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     floor[0] = 0;
                                     down[0] = 0;
                                     side[0] = 0;
-                                    mv.bx = 1200;
+                                    mv.bx = dpToPx(400);
                                     mv.by = 0;
                                     mv.px = 0;
                                     mv.py = 0;
@@ -1062,6 +1069,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
 
     }
+    public int dpToPx(int sizeInDP){
+        int pxVal = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, sizeInDP, getResources().getDisplayMetrics());
+        return pxVal;
+    }
+
 /*
     public void mOnClick(View v){
         switch (v.getId()){

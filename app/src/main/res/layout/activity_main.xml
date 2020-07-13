@@ -143,473 +143,482 @@
 
                     </LinearLayout>
 
-                    <LinearLayout
+                    <FrameLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
+                        android:layout_weight="1">
                         <LinearLayout
-                            android:id="@+id/line1"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="40dp"
-                            android:orientation="vertical"
-                            android:visibility="invisible">
-                            <ImageView
-                                android:id="@+id/seg1_1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg1_2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg1_3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg1_4"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg1_5"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg1_6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg1_7"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg1_8"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:background="@drawable/line" />
-                        </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="85dp"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-                            <ImageView
-                                android:id="@+id/line1_1"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:background="@drawable/horizontal_line"
-                                android:visibility="invisible"/>
-                            <ImageView
-                                android:id="@+id/line1_2"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:background="@drawable/horizontal_line"
-                                android:visibility="invisible"/>
-                            <ImageView
-                                android:id="@+id/line1_3"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:background="@drawable/horizontal_line"
-                                android:visibility="invisible"/>
-                            <ImageView
-                                android:id="@+id/line1_4"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:background="@drawable/horizontal_line"
-                                android:visibility="invisible"/>
-                            <ImageView
-                                android:id="@+id/line1_5"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:background="@drawable/horizontal_line"
-                                android:visibility="invisible"/>
-                            <ImageView
-                                android:id="@+id/line1_6"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:background="@drawable/horizontal_line"
-                                android:visibility="invisible"/>
-                            <ImageView
-                                android:id="@+id/line1_7"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:background="@drawable/horizontal_line"
-                                android:visibility="invisible"/>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:id="@+id/line2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:visibility="invisible">
-                            <ImageView
-                                android:id="@+id/seg2_1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg2_2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg2_3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg2_4"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg2_5"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg2_6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg2_7"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg2_8"
+                            android:orientation="horizontal">
+                            <LinearLayout
+                                android:id="@+id/line1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/line" />
-                        </LinearLayout>
+                                android:layout_marginLeft="40dp"
+                                android:orientation="vertical"
+                                android:visibility="invisible">
+                                <ImageView
+                                    android:id="@+id/seg1_1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg1_2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg1_3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg1_4"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg1_5"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg1_6"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg1_7"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg1_8"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/line" />
+                            </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="85dp"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-                            <ImageView
-                                android:id="@+id/line2_1"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:background="@drawable/horizontal_line"
-                                android:visibility="invisible"/>
-                            <ImageView
-                                android:id="@+id/line2_2"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:background="@drawable/horizontal_line"
-                                android:visibility="invisible"/>
-                            <ImageView
-                                android:id="@+id/line2_3"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:background="@drawable/horizontal_line"
-                                android:visibility="invisible"/>
-                            <ImageView
-                                android:id="@+id/line2_4"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:background="@drawable/horizontal_line"
-                                android:visibility="invisible"/>
-                            <ImageView
-                                android:id="@+id/line2_5"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:background="@drawable/horizontal_line"
-                                android:visibility="invisible"/>
-                            <ImageView
-                                android:id="@+id/line2_6"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:background="@drawable/horizontal_line"
-                                android:visibility="invisible"/>
-                            <ImageView
-                                android:id="@+id/line2_7"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:background="@drawable/horizontal_line"
-                                android:visibility="invisible"/>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:id="@+id/line3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:visibility="invisible">
-                            <ImageView
-                                android:id="@+id/seg3_1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg3_2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg3_3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg3_4"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg3_5"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg3_6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg3_7"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg3_8"
+                            <LinearLayout
+                                android:layout_width="85dp"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+                                <ImageView
+                                    android:id="@+id/line1_1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:background="@drawable/horizontal_line"
+                                    android:visibility="invisible"/>
+                                <ImageView
+                                    android:id="@+id/line1_2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:background="@drawable/horizontal_line"
+                                    android:visibility="invisible"/>
+                                <ImageView
+                                    android:id="@+id/line1_3"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:background="@drawable/horizontal_line"
+                                    android:visibility="invisible"/>
+                                <ImageView
+                                    android:id="@+id/line1_4"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:background="@drawable/horizontal_line"
+                                    android:visibility="invisible"/>
+                                <ImageView
+                                    android:id="@+id/line1_5"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:background="@drawable/horizontal_line"
+                                    android:visibility="invisible"/>
+                                <ImageView
+                                    android:id="@+id/line1_6"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:background="@drawable/horizontal_line"
+                                    android:visibility="invisible"/>
+                                <ImageView
+                                    android:id="@+id/line1_7"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:background="@drawable/horizontal_line"
+                                    android:visibility="invisible"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/line2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/line" />
-                        </LinearLayout>
+                                android:orientation="vertical"
+                                android:visibility="invisible">
+                                <ImageView
+                                    android:id="@+id/seg2_1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg2_2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg2_3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg2_4"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg2_5"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg2_6"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg2_7"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg2_8"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/line" />
+                            </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="85dp"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-                            <ImageView
-                                android:id="@+id/line3_1"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:background="@drawable/horizontal_line"
-                                android:visibility="invisible"/>
-                            <ImageView
-                                android:id="@+id/line3_2"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:background="@drawable/horizontal_line"
-                                android:visibility="invisible"/>
-                            <ImageView
-                                android:id="@+id/line3_3"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:background="@drawable/horizontal_line"
-                                android:visibility="invisible"/>
-                            <ImageView
-                                android:id="@+id/line3_4"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:background="@drawable/horizontal_line"
-                                android:visibility="invisible"/>
-                            <ImageView
-                                android:id="@+id/line3_5"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:background="@drawable/horizontal_line"
-                                android:visibility="invisible"/>
-                            <ImageView
-                                android:id="@+id/line3_6"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:background="@drawable/horizontal_line"
-                                android:visibility="invisible"/>
-                            <ImageView
-                                android:id="@+id/line3_7"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:background="@drawable/horizontal_line"
-                                android:visibility="invisible"/>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:id="@+id/line4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:visibility="invisible">
-                            <ImageView
-                                android:id="@+id/seg4_1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg4_2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg4_3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg4_4"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg4_5"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg4_6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg4_7"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg4_8"
+                            <LinearLayout
+                                android:layout_width="85dp"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+                                <ImageView
+                                    android:id="@+id/line2_1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:background="@drawable/horizontal_line"
+                                    android:visibility="invisible"/>
+                                <ImageView
+                                    android:id="@+id/line2_2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:background="@drawable/horizontal_line"
+                                    android:visibility="invisible"/>
+                                <ImageView
+                                    android:id="@+id/line2_3"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:background="@drawable/horizontal_line"
+                                    android:visibility="invisible"/>
+                                <ImageView
+                                    android:id="@+id/line2_4"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:background="@drawable/horizontal_line"
+                                    android:visibility="invisible"/>
+                                <ImageView
+                                    android:id="@+id/line2_5"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:background="@drawable/horizontal_line"
+                                    android:visibility="invisible"/>
+                                <ImageView
+                                    android:id="@+id/line2_6"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:background="@drawable/horizontal_line"
+                                    android:visibility="invisible"/>
+                                <ImageView
+                                    android:id="@+id/line2_7"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:background="@drawable/horizontal_line"
+                                    android:visibility="invisible"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/line3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/line" />
-                        </LinearLayout>
+                                android:orientation="vertical"
+                                android:visibility="invisible">
+                                <ImageView
+                                    android:id="@+id/seg3_1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg3_2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg3_3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg3_4"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg3_5"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg3_6"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg3_7"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg3_8"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/line" />
+                            </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="85dp"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-                            <ImageView
-                                android:id="@+id/line4_1"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:background="@drawable/horizontal_line"
-                                android:visibility="invisible"/>
-                            <ImageView
-                                android:id="@+id/line4_2"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:background="@drawable/horizontal_line"
-                                android:visibility="invisible"/>
-                            <ImageView
-                                android:id="@+id/line4_3"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:background="@drawable/horizontal_line"
-                                android:visibility="invisible"/>
-                            <ImageView
-                                android:id="@+id/line4_4"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:background="@drawable/horizontal_line"
-                                android:visibility="invisible"/>
-                            <ImageView
-                                android:id="@+id/line4_5"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:background="@drawable/horizontal_line"
-                                android:visibility="invisible"/>
-                            <ImageView
-                                android:id="@+id/line4_6"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:background="@drawable/horizontal_line"
-                                android:visibility="invisible"/>
-                            <ImageView
-                                android:id="@+id/line4_7"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:background="@drawable/horizontal_line"
-                                android:visibility="invisible"/>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:id="@+id/line5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:visibility="invisible">
-                            <ImageView
-                                android:id="@+id/seg5_1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg5_2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg5_3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg5_4"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg5_5"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg5_6"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg5_7"
-                                android:layout_width="wrap_content"
-                                android:layout_height="45dp"
-                                android:background="@drawable/line" />
-                            <ImageView
-                                android:id="@+id/seg5_8"
+                            <LinearLayout
+                                android:layout_width="85dp"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+                                <ImageView
+                                    android:id="@+id/line3_1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:background="@drawable/horizontal_line"
+                                    android:visibility="invisible"/>
+                                <ImageView
+                                    android:id="@+id/line3_2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:background="@drawable/horizontal_line"
+                                    android:visibility="invisible"/>
+                                <ImageView
+                                    android:id="@+id/line3_3"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:background="@drawable/horizontal_line"
+                                    android:visibility="invisible"/>
+                                <ImageView
+                                    android:id="@+id/line3_4"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:background="@drawable/horizontal_line"
+                                    android:visibility="invisible"/>
+                                <ImageView
+                                    android:id="@+id/line3_5"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:background="@drawable/horizontal_line"
+                                    android:visibility="invisible"/>
+                                <ImageView
+                                    android:id="@+id/line3_6"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:background="@drawable/horizontal_line"
+                                    android:visibility="invisible"/>
+                                <ImageView
+                                    android:id="@+id/line3_7"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:background="@drawable/horizontal_line"
+                                    android:visibility="invisible"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/line4"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/line" />
+                                android:orientation="vertical"
+                                android:visibility="invisible">
+                                <ImageView
+                                    android:id="@+id/seg4_1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg4_2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg4_3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg4_4"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg4_5"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg4_6"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg4_7"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg4_8"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/line" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="85dp"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+                                <ImageView
+                                    android:id="@+id/line4_1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:background="@drawable/horizontal_line"
+                                    android:visibility="invisible"/>
+                                <ImageView
+                                    android:id="@+id/line4_2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:background="@drawable/horizontal_line"
+                                    android:visibility="invisible"/>
+                                <ImageView
+                                    android:id="@+id/line4_3"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:background="@drawable/horizontal_line"
+                                    android:visibility="invisible"/>
+                                <ImageView
+                                    android:id="@+id/line4_4"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:background="@drawable/horizontal_line"
+                                    android:visibility="invisible"/>
+                                <ImageView
+                                    android:id="@+id/line4_5"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:background="@drawable/horizontal_line"
+                                    android:visibility="invisible"/>
+                                <ImageView
+                                    android:id="@+id/line4_6"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:background="@drawable/horizontal_line"
+                                    android:visibility="invisible"/>
+                                <ImageView
+                                    android:id="@+id/line4_7"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="40dp"
+                                    android:background="@drawable/horizontal_line"
+                                    android:visibility="invisible"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/line5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:visibility="invisible">
+                                <ImageView
+                                    android:id="@+id/seg5_1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg5_2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg5_3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg5_4"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg5_5"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg5_6"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg5_7"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="45dp"
+                                    android:background="@drawable/line" />
+                                <ImageView
+                                    android:id="@+id/seg5_8"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/line" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="50dp"
+                                android:layout_height="match_parent"/>
+
                         </LinearLayout>
                         <com.example.myapplication_week1.Ladder
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/mv"
-                            />
-                    </LinearLayout>
+                            android:id="@+id/mv"/>
+                    </FrameLayout>
+
 
 
                     <LinearLayout
