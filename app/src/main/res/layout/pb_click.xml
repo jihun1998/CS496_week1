@@ -39,7 +39,26 @@
             android:id="@+id/tv_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="000-0000-0000"
+            android:text="00000000000"
+            android:textSize="20dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="친밀도: "
+            android:textSize="20dp"/>
+        <TextView
+            android:id="@+id/tv_per"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textSize="20dp"/>
     </LinearLayout>
 

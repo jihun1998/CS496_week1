@@ -7,15 +7,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class Add extends Activity implements View.OnClickListener {
-    ArrayList<Phonebook> list=new ArrayList<Phonebook>();
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -38,12 +42,14 @@ public class Add extends Activity implements View.OnClickListener {
                         JSONObject tmp=new JSONObject();
                         tmp.put("name",MainActivity.list.get(i).getName());
                         tmp.put("number",MainActivity.list.get(i).getNumber());
+                        tmp.put("friendly",MainActivity.list.get(i).getFriendly());
                         arr.put(tmp);
                     }
 
                     JSONObject tmp=new JSONObject();
                     tmp.put("name",uname);
                     tmp.put("number",unum);
+                    tmp.put("friendly",0);
                     arr.put(tmp);
                     obj.put("Phonebook", arr);
                 } catch (JSONException e) {

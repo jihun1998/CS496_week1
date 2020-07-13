@@ -30,7 +30,7 @@ import android.widget.Button;
 import android.view.ViewGroup;
 
 //import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
+import java.util.*;
 //import java.util.List;
 
 import android.app.Activity;
@@ -71,6 +71,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Collections;
 import java.util.logging.LogRecord;
 
 
@@ -130,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     PbAdapter adapter=null;
     static ArrayList<Phonebook> list = new ArrayList<Phonebook>();
+    int total=0;
 
     Handler mdHandler, mlHandler, mrHandler;
     Handler mHandler;
@@ -152,6 +154,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SharedPreferences sp=getSharedPreferences("contact",MODE_PRIVATE);
         String str=sp.getString("phone",null);
         if(str!=null) jsonParsing(str);
+        Collections.sort(list);
 
         //LISTVIEW
         final ListView listview = (ListView)findViewById(R.id.pb_listview);
@@ -163,10 +166,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView adapterView, View view, int position, long id) {
-                Intent intent=new Intent(getApplicationContext(),Next.class);
+                Intent intent=new Intent(getApplicationContext(), Next.class);
 
                 intent.putExtra("name", list.get(position).getName());
                 intent.putExtra("number", list.get(position).getNumber());
+                list.get(position).setFriendly(list.get(position).getFriendly()+1);
+                intent.putExtra("friendly", list.get(position).getFriendly());
+                total++;
+                intent.putExtra("total",total);
                 intent.putExtra("index", position);
                 startActivity(intent);
             }
@@ -1287,6 +1294,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Phonebook pb=new Phonebook();
                 pb.setName(pobj.getString("name"));
                 pb.setNumber(pobj.getString("number"));
+                pb.setFriendly(pobj.getInt("friendly"));
+
+                total+=pobj.getInt("friendly");
 
                 list.add(pb);
             }
@@ -1294,7 +1304,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
     }
-
     @Override
     public void onClick(View view) {
 
