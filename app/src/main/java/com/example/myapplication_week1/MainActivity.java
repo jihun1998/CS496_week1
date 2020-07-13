@@ -44,6 +44,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TabWidget;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -140,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         host.setup();
 
         TabHost.TabSpec spec = host.newTabSpec("tab1");
-        spec.setIndicator(null, ResourcesCompat.getDrawable(getResources(), R.drawable.tab_icon1, null));
+        spec.setIndicator("CONTACT");
         spec.setContent(R.id.tab_content1);
         host.addTab(spec);
 
@@ -178,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         spec = host.newTabSpec("tab2");
-        spec.setIndicator(null, ResourcesCompat.getDrawable(getResources(), R.drawable.tab_icon2, null));
+        spec.setIndicator("GALLERY");
         spec.setContent(R.id.tab_content2);
         host.addTab(spec);
 
@@ -231,7 +233,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         spec = host.newTabSpec("tab3");
-        spec.setIndicator(null, ResourcesCompat.getDrawable(getResources(), R.drawable.tab_icon3, null));
+        spec.setIndicator("LADDER");
         spec.setContent(R.id.tab_content3);
         host.addTab(spec);
 
@@ -964,8 +966,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
+        TabWidget tw = (TabWidget)host.findViewById(android.R.id.tabs);
+        View tabView1 = tw.getChildTabViewAt(0);
+        TextView tv1 = (TextView)tabView1.findViewById(android.R.id.title);
+        tv1.setTextColor(getResources().getColor(R.color.white));
+        tv1.setTextSize(20);
 
+        View tabView2 = tw.getChildTabViewAt(1);
+        TextView tv2 = (TextView)tabView2.findViewById(android.R.id.title);
+        tv2.setTextColor(getResources().getColor(R.color.white));
+        tv2.setTextSize(20);
 
+        View tabView3 = tw.getChildTabViewAt(2);
+        TextView tv3 = (TextView)tabView3.findViewById(android.R.id.title);
+        tv3.setTextColor(getResources().getColor(R.color.white));
+        tv3.setTextSize(20);
 
 
     }
