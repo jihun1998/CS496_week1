@@ -7,6 +7,7 @@ import android.content.Intent;
 //import android.database.Cursor;
 //import android.graphics.Bitmap;
 //import android.graphics.BitmapFactory;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 //import android.provider.ContactsContract;
@@ -61,6 +62,10 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.logging.LogRecord;
 
@@ -119,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //ImageView image;
 
     PbAdapter adapter=null;
-    ArrayList<Phonebook> list=null;
+    static ArrayList<Phonebook> list = new ArrayList<Phonebook>();
 
     Handler mdHandler, mlHandler, mrHandler;
     Handler mHandler;
@@ -139,25 +144,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         spec.setContent(R.id.tab_content1);
         host.addTab(spec);
 
-        //BUTTON
-        Button addbt=(Button)findViewById(R.id.btn);
-        addbt.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(getApplicationContext(), Add.class);
-                startActivity(intent);
-            }
-        });
+        SharedPreferences sp=getSharedPreferences("contact",MODE_PRIVATE);
+        String str=sp.getString("phone",null);
+        if(str!=null) jsonParsing(str);
 
         //LISTVIEW
-        ListView listview = (ListView)findViewById(R.id.pb_listview);
-        list = new ArrayList<Phonebook>();
-
-        String json=getJsonString();
-        Phonebook pb=new Phonebook(json);
-        for (int i = 0; i < pb.getList().size(); i++) {
-            list.add(pb.getList().get(i));
-        }
+        final ListView listview = (ListView)findViewById(R.id.pb_listview);
 
         adapter = new PbAdapter(this,R.layout.pb_item, list);
         adapter.notifyDataSetChanged();
@@ -170,6 +162,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 intent.putExtra("name", list.get(position).getName());
                 intent.putExtra("number", list.get(position).getNumber());
+                intent.putExtra("index", position);
+                startActivity(intent);
+            }
+        });
+
+        //BUTTON-ADD
+        final Button addbt=(Button)findViewById(R.id.add);
+        addbt.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getApplicationContext(), Add.class);
                 startActivity(intent);
             }
         });
@@ -1043,26 +1046,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    private String getJsonString()
-    {
-        String json = "";
+    private void jsonParsing(String json){
+        list.clear();
+        try{
+            JSONObject jobj=new JSONObject(json);
+            JSONArray jarray=jobj.getJSONArray("Phonebook");
 
-        try {
-            InputStream is = getAssets().open("db.json");
-            int fileSize = is.available();
+            for(int i=0; i<jarray.length(); i++){
+                JSONObject pobj=jarray.getJSONObject(i);
 
-            byte[] buffer = new byte[fileSize];
-            is.read(buffer);
-            is.close();
+                Phonebook pb=new Phonebook();
+                pb.setName(pobj.getString("name"));
+                pb.setNumber(pobj.getString("number"));
 
-            json = new String(buffer, "UTF-8");
+                list.add(pb);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        catch (IOException ex)
-        {
-            ex.printStackTrace();
-        }
-
-        return json;
     }
 
     @Override

@@ -6,34 +6,40 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Next extends Activity {
+public class Modify extends Activity implements View.OnClickListener{
 
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.md_click);
 
-        setContentView(R.layout.pb_click);
+        Button okaybt=(Button)findViewById(R.id.okay2);
+        okaybt.setOnClickListener(new View.OnClickListener(){
 
-        Intent intent=getIntent();
-
-        TextView name=(TextView)findViewById(R.id.tv_name);
-        TextView number=(TextView)findViewById(R.id.tv_number);
-
-        name.setText(intent.getStringExtra("name"));
-        number.setText(intent.getStringExtra("number"));
-        final int idx=intent.getIntExtra("index",0);
-
-        //BUTTON-DELETE
-        Button delbt=(Button)findViewById(R.id.del);
-        delbt.setOnClickListener(new View.OnClickListener(){
-            @Override
             public void onClick(View view) {
-                MainActivity.list.remove(idx);
+                EditText editname=(EditText)findViewById(R.id.md_name);
+                EditText editnum=(EditText)findViewById(R.id.md_number);
+
+                String uname=editname.getText().toString();
+                String unum=editnum.getText().toString();
+
+                Intent intent=getIntent();
+                int idx=intent.getIntExtra("index",0);
+
+                if(!uname.equals("")) {
+                    System.out.println("AAAAAAAAAAAAAAaa");
+                    MainActivity.list.get(idx).setName(uname);
+                }
+                if(!unum.equals("")) {
+                    System.out.println("BBBBBBBBBBBBB");
+                    MainActivity.list.get(idx).setNumber(unum);
+                }
 
                 JSONObject obj=new JSONObject();
                 JSONArray arr=new JSONArray();
@@ -54,21 +60,14 @@ public class Next extends Activity {
                 edit.putString("phone",str);
                 edit.commit();
 
-                Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+                intent=new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 finishAffinity();
             }
         });
+    }
+    @Override
+    public void onClick(View view) {
 
-        //BUTTON-MODIFY
-        final Button chbt=(Button)findViewById(R.id.ch);
-        chbt.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(getApplicationContext(), Modify.class);
-                intent.putExtra("index", idx);
-                startActivity(intent);
-            }
-        });
     }
 }

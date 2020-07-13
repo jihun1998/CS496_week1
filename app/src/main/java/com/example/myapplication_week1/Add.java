@@ -1,20 +1,27 @@
 package com.example.myapplication_week1;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
-public class Add extends Activity implements View.OnClickListener{
-    final ArrayList<Phonebook> list=new ArrayList<Phonebook>();
+public class Add extends Activity implements View.OnClickListener {
+    ArrayList<Phonebook> list=new ArrayList<Phonebook>();
+
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_click);
 
-        Button okaybt=(Button)findViewById(R.id.okay);
+        Button okaybt=(Button)findViewById(R.id.okay1);
         okaybt.setOnClickListener(new View.OnClickListener(){
 
             public void onClick(View view) {
@@ -24,16 +31,35 @@ public class Add extends Activity implements View.OnClickListener{
                 String uname=editname.getText().toString();
                 String unum=editnum.getText().toString();
 
-                Phonebook pb=new Phonebook(uname,unum);
-                list.add(pb);
+                JSONObject obj=new JSONObject();
+                JSONArray arr=new JSONArray();
+                try {
+                    for(int i=0; i<MainActivity.list.size(); i++){
+                        JSONObject tmp=new JSONObject();
+                        tmp.put("name",MainActivity.list.get(i).getName());
+                        tmp.put("number",MainActivity.list.get(i).getNumber());
+                        arr.put(tmp);
+                    }
 
-                finish();
+                    JSONObject tmp=new JSONObject();
+                    tmp.put("name",uname);
+                    tmp.put("number",unum);
+                    arr.put(tmp);
+                    obj.put("Phonebook", arr);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                String str=obj.toString();
+                SharedPreferences.Editor edit=getSharedPreferences("contact",MODE_PRIVATE).edit();
+                edit.putString("phone",str);
+                edit.commit();
+
+                Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                finishAffinity();
             }
         });
-    }
-
-    public ArrayList<Phonebook> getTmpList(){
-        return list;
     }
 
     @Override

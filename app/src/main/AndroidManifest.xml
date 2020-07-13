@@ -22,6 +22,7 @@
         <activity android:name=".ImageGet"/>
         <activity android:name=".Next"/>
         <activity android:name=".Add"/>
+        <activity android:name=".Modify"/>
     </application>
 
 </manifest>

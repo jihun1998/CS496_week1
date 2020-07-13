@@ -33,7 +33,7 @@
                 android:text="전화번호"
                 android:textColor="#69b9ab"
                 android:textSize="15dp"/>
+
         </LinearLayout>
     </LinearLayout>
-
-</LinearLayout>
+    </LinearLayout>
