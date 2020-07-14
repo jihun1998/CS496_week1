@@ -20,6 +20,7 @@ public class startView  extends AppCompatActivity {
         setContentView(R.layout.start_layout);
 
         startView = (LinearLayout)findViewById(R.id.startLayout);
+        /*
         final int[] startcount = {5};
         startHandler = new Handler(){
             public void handleMessage(Message msg){
@@ -52,7 +53,20 @@ public class startView  extends AppCompatActivity {
                 }
             }
         };
+
         startHandler.sendEmptyMessageDelayed(10,1000);
+        */
+        Handler startHandler = new Handler();
+        startHandler.postDelayed(new splashhandler(),870);//0.87초 고집
+    }
+    private class splashhandler implements Runnable{
+        public void run(){
+            startActivity(new Intent(getApplication(),MainActivity.class));
+            startView.this.finish();
+        }
+    }
+    @Override
+    public void onBackPressed(){
 
     }
 }
