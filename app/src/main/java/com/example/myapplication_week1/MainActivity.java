@@ -127,7 +127,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button tab3_1_dst, tab3_2_dst, tab3_3_dst, tab3_4_dst, tab3_5_dst;
     Button result_btn;
     LinearLayout ladder, names, dsts;
-    LinearLayout startView;
     //ImageView image;
 
     PbAdapter adapter=null;
@@ -136,7 +135,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //Handler mdHandler, mlHandler, mrHandler;
     Handler mHandler;
-    Handler startHandler;
     int ct=0;
     final int[][] path=new int[7][5];
 
@@ -147,39 +145,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         final TabHost host=(TabHost)findViewById(R.id.host);
         host.setup();
-        startView = (LinearLayout)findViewById(R.id.startLayout);
-        host.setVisibility(View.INVISIBLE);
-        final int[] startcount = {5};
-        startHandler = new Handler(){
-            public void handleMessage(Message msg){
-                if(startcount[0] ==5){
-                    startView.setAlpha(0.8F);
-                    startcount[0] -=1;
-                    startHandler.sendEmptyMessageDelayed(10,50);
-                }
-                else if(startcount[0] ==4){
-                    startView.setAlpha(0.6F);
-                    startcount[0] -=1;
-                    startHandler.sendEmptyMessageDelayed(10,50);
-                }
-                else if(startcount[0] ==3){
-                    startView.setAlpha(0.4F);
-                    startcount[0] -=1;
-                    startHandler.sendEmptyMessageDelayed(10,50);
-                }
-                else if(startcount[0] ==2){
-                    startView.setAlpha(0.2F);
-                    startcount[0] -=1;
-                    startHandler.sendEmptyMessageDelayed(10,50);
-                }
-                else if(startcount[0] ==1){
-                    startView.setVisibility(View.GONE);
-                    host.setVisibility(View.VISIBLE);
-                    startHandler.removeMessages(10);
-                }
-            }
-        };
-        startHandler.sendEmptyMessageDelayed(10,1000);
+
+
         TabHost.TabSpec spec = host.newTabSpec("tab1");
         spec.setIndicator("CONTACT");
         spec.setContent(R.id.tab_content1);
