@@ -8,9 +8,11 @@ import android.content.Intent;
 //import android.graphics.Bitmap;
 //import android.graphics.BitmapFactory;
 import android.content.SharedPreferences;
+import android.graphics.ImageFormat;
 import android.net.Uri;
 import android.os.Bundle;
 //import android.provider.ContactsContract;
+import android.os.Vibrator;
 import android.provider.MediaStore;
 //import android.util.Base64;
 import android.util.TypedValue;
@@ -122,7 +124,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     Button button, tab3_btn, tab3_1, tab3_2, tab3_3, tab3_4, tab3_5, name_btn ;
     Button tab3_1_dst, tab3_2_dst, tab3_3_dst, tab3_4_dst, tab3_5_dst;
-
+    Button result_btn;
+    LinearLayout ladder, names, dsts;
     //ImageView image;
 
     PbAdapter adapter=null;
@@ -189,6 +192,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         spec.setIndicator("GALLERY");
         spec.setContent(R.id.tab_content2);
         host.addTab(spec);
+        final int[] viewnum = new int[21];
+        final int[] mostviewNum = {0};
+        final int[] secondNum = {0};
+        final int[] thirdNum = {0};
+        final int[] mostviewImg = {0};
+        final int[] secondImg = {0};
+        final int[] thirdImg = {0};
+        final ImageView mostViewd = (ImageView)findViewById(R.id.mostView);
+        final ImageView second = (ImageView)findViewById(R.id.second);
+        final ImageView third = (ImageView)findViewById(R.id.third);
+        final SharedPreferences sp2 = getSharedPreferences("gallery",MODE_PRIVATE);
+
 
         button = (Button)findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
@@ -227,14 +242,106 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageAdapter.addItem(new ImageItem(R.drawable.image21));
         gridView.setAdapter(imageAdapter);
 
+        mostviewImg[0]=sp2.getInt("most",0);
+        secondImg[0]=sp2.getInt("second",0);
+        thirdImg[0]=sp2.getInt("third",0);
+        if(mostviewImg[0]!=0) {
+            int k = getResources().getIdentifier("image" + mostviewImg[0], "drawable", getPackageName());
+            mostViewd.setImageResource(k);
+        }
+        if(secondImg[0]!=0) {
+            int k = getResources().getIdentifier("image" + secondImg[0], "drawable", getPackageName());
+            second.setImageResource(k);
+        }
+        if(thirdImg[0]!=0) {
+            int k = getResources().getIdentifier("image" + thirdImg[0], "drawable", getPackageName());
+            third.setImageResource(k);
+        }
+        final SharedPreferences.Editor editor = sp2.edit();
+
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getApplicationContext(), ImageClicked.class);
 
+                int num = sp2.getInt(Integer.toString(i),0);
+                num+=1;
+                editor.putInt(Integer.toString(i),num);
+                editor.commit();
+                for(int a=0; a<21; a++) {
+                    viewnum[a] = sp2.getInt(Integer.toString(a),0);
+                    if(mostviewNum[0] < viewnum[a]){
+                        mostviewNum[0] = viewnum[a];
+                        int temp = mostviewImg[0];
+                        int temp2 = secondImg[0];
+                        mostviewImg[0] = a+1;
+                        if(temp==mostviewImg[0]){
+                            continue;
+                        }
+                        if(temp2==mostviewImg[0]){
+                            secondImg[0]=temp;
+                            continue;
+                        }
+
+                        secondImg[0]=temp;
+                        thirdImg[0]=temp2;
+
+                    }
+                    else if((a+1)!=mostviewImg[0]&&viewnum[a]>secondNum[0]){
+                        secondNum[0]=viewnum[a];
+                        int temp = secondImg[0];
+                        secondImg[0]=a+1;
+                        if(temp == secondImg[0]){
+                            continue;
+                        }
+
+                        thirdImg[0]=temp;
+
+                    }
+                    else if((a+1)!=mostviewImg[0]&&(a+1)!=secondImg[0]&&viewnum[a]>thirdNum[0]){
+                        thirdNum[0]=viewnum[a];
+                        thirdImg[0]=a+1;
+
+                    }
+                }
+                if(mostviewImg[0]!=0) {
+                    int k = getResources().getIdentifier("image" + mostviewImg[0], "drawable", getPackageName());
+                    mostViewd.setImageResource(k);
+                }
+                if(secondImg[0]!=0) {
+                    int k = getResources().getIdentifier("image" + secondImg[0], "drawable", getPackageName());
+                    second.setImageResource(k);
+                }
+                if(thirdImg[0]!=0) {
+                    int k = getResources().getIdentifier("image" + thirdImg[0], "drawable", getPackageName());
+                    third.setImageResource(k);
+                }
+                editor.putInt("most",mostviewImg[0]);
+                editor.putInt("second",secondImg[0]);
+                editor.putInt("third",thirdImg[0]);
+                editor.commit();
                 intent.putExtra("image", Integer.toString((imageAdapter.getItem(i).getImage())));
                 startActivity(intent);
 
+            }
+        });
+        Button reset = (Button)findViewById(R.id.reset);
+        reset.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                for(int a=0; a<21; a++){
+                    editor.putInt(Integer.toString(a),0);
+                }
+                mostviewImg[0] = 0;
+                secondImg[0] = 0;
+                thirdImg[0] = 0;
+                editor.putInt("most",mostviewImg[0]);
+                editor.putInt("second",secondImg[0]);
+                editor.putInt("third",thirdImg[0]);
+                editor.commit();
+                mostViewd.setImageResource(0);
+                second.setImageResource(0);
+                third.setImageResource(0);
             }
         });
 
@@ -263,6 +370,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         final int[] floor = {0};
         final int[] down = {0};
         final int[] side = {0};
+
+        final EditText dst1 = (EditText)findViewById(R.id.text1_dst);
+        final EditText dst2 = (EditText)findViewById(R.id.text2_dst);
+        final EditText dst3 = (EditText)findViewById(R.id.text3_dst);
+        final EditText dst4 = (EditText)findViewById(R.id.text4_dst);
+        final EditText dst5 = (EditText)findViewById(R.id.text5_dst);
+
+        ladder = (LinearLayout)findViewById(R.id.ladder);
+        names = (LinearLayout)findViewById(R.id.names);
+        dsts = (LinearLayout)findViewById(R.id.dsts);
         mHandler = new Handler(){
             public void handleMessage(Message msg){
                 if(down[0]<12){
@@ -280,6 +397,95 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         mv.y1= (mv.py - mv.h/2);
                         mv.y2= (mv.py + mv.h/2);
                         mv.invalidate();
+                        if (line[0] == 0) {
+                            result_btn.setClickable(true);
+                            result_btn.setVisibility(View.VISIBLE);
+                            result_btn.setText(dst1.getText().toString());
+                            ladder.setAlpha(0.2F);
+                            names.setAlpha(0.2F);
+                            dsts.setAlpha(0.2F);
+                            result_btn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    ladder.setAlpha(1.0F);
+                                    names.setAlpha(1.0F);
+                                    dsts.setAlpha(1.0F);
+                                    result_btn.setVisibility(View.INVISIBLE);
+                                    result_btn.setClickable(false);
+                                }
+                            });
+                        } else if (line[0] == 1) {
+                            result_btn.setClickable(true);
+                            result_btn.setVisibility(View.VISIBLE);
+                            result_btn.setText(dst2.getText().toString());
+                            ladder.setAlpha(0.2F);
+                            names.setAlpha(0.2F);
+                            dsts.setAlpha(0.2F);
+                            result_btn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    ladder.setAlpha(1.0F);
+                                    names.setAlpha(1.0F);
+                                    dsts.setAlpha(1.0F);
+                                    result_btn.setVisibility(View.INVISIBLE);
+                                    result_btn.setClickable(false);
+                                }
+                            });
+                        } else if (line[0] == 2) {
+                            result_btn.setClickable(true);
+                            result_btn.setVisibility(View.VISIBLE);
+                            result_btn.setText(dst3.getText().toString());
+                            ladder.setAlpha(0.2F);
+                            names.setAlpha(0.2F);
+                            dsts.setAlpha(0.2F);
+                            result_btn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    ladder.setAlpha(1.0F);
+                                    names.setAlpha(1.0F);
+                                    dsts.setAlpha(1.0F);
+                                    result_btn.setVisibility(View.INVISIBLE);
+                                    result_btn.setClickable(false);
+                                }
+                            });
+                        } else if (line[0] == 3) {
+                            result_btn.setClickable(true);
+                            result_btn.setVisibility(View.VISIBLE);
+                            result_btn.setText(dst4.getText().toString());
+                            ladder.setAlpha(0.2F);
+                            names.setAlpha(0.2F);
+                            dsts.setAlpha(0.2F);
+                            result_btn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    ladder.setAlpha(1.0F);
+                                    names.setAlpha(1.0F);
+                                    dsts.setAlpha(1.0F);
+                                    result_btn.setVisibility(View.INVISIBLE);
+                                    result_btn.setClickable(false);
+                                }
+                            });
+                        } else if (line[0] == 4) {
+                            result_btn.setClickable(true);
+                            result_btn.setVisibility(View.VISIBLE);
+                            result_btn.setText(dst5.getText().toString());
+                            ladder.setAlpha(0.2F);
+                            names.setAlpha(0.2F);
+                            dsts.setAlpha(0.2F);
+                            result_btn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    ladder.setAlpha(1.0F);
+                                    names.setAlpha(1.0F);
+                                    dsts.setAlpha(1.0F);
+                                    result_btn.setVisibility(View.INVISIBLE);
+                                    result_btn.setClickable(false);
+                                }
+                            });
+                        }
+                        Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+                        vibrator.vibrate(500);
+
                         mHandler.removeMessages(10);
                     }
                     mHandler.sendEmptyMessageDelayed(10,30);
@@ -291,6 +497,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     mv.y1= (mv.py - mv.h/2);
                     mv.y2= (mv.py + mv.h/2);
                     mv.invalidate();
+                    Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+                    vibrator.vibrate(500);
                     mHandler.removeMessages(10);
                 }
 
@@ -329,6 +537,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         };
+        result_btn = (Button)findViewById(R.id.result);
 
         name_btn = (Button)findViewById(R.id.btn_name);
         tab3_btn.setOnClickListener(new View.OnClickListener() {
@@ -355,11 +564,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 EditText name4 = (EditText)findViewById(R.id.btn4_name);
                 EditText name5 = (EditText)findViewById(R.id.btn5_name);
 
-                EditText dst1 = (EditText)findViewById(R.id.text1_dst);
-                EditText dst2 = (EditText)findViewById(R.id.text2_dst);
-                EditText dst3 = (EditText)findViewById(R.id.text3_dst);
-                EditText dst4 = (EditText)findViewById(R.id.text4_dst);
-                EditText dst5 = (EditText)findViewById(R.id.text5_dst);
+
 
                 if(count==2){
 
@@ -426,8 +631,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
                             EditText name1 = (EditText)findViewById(R.id.btn1_name);
                             EditText name2 = (EditText)findViewById(R.id.btn2_name);
-                            EditText dst1 = (EditText)findViewById(R.id.text1_dst);
-                            EditText dst2 = (EditText)findViewById(R.id.text2_dst);
+                            final EditText dst1 = (EditText)findViewById(R.id.text1_dst);
+                            final EditText dst2 = (EditText)findViewById(R.id.text2_dst);
 
                             tab3_1.setText(name1.getText().toString());
                             tab3_2.setText(name2.getText().toString());
@@ -440,6 +645,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             name_btn.setVisibility(View.GONE);
                             tab3_1_dst.setClickable(false);
                             tab3_2_dst.setClickable(false);
+
 
                             tab3_1.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -454,6 +660,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     mv.px = 0;
                                     mv.py = 0;
                                     mHandler.sendEmptyMessageDelayed(10,200);
+
 
                                 }
                             });
@@ -470,6 +677,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     mv.px = 0;
                                     mv.py = 0;
                                     mHandler.sendEmptyMessageDelayed(10,200);
+
                                 }
                             });
                         }
@@ -540,9 +748,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             EditText name1 = (EditText)findViewById(R.id.btn1_name);
                             EditText name2 = (EditText)findViewById(R.id.btn2_name);
                             EditText name3 = (EditText)findViewById(R.id.btn3_name);
-                            EditText dst1 = (EditText)findViewById(R.id.text1_dst);
-                            EditText dst2 = (EditText)findViewById(R.id.text2_dst);
-                            EditText dst3 = (EditText)findViewById(R.id.text3_dst);
+                            final EditText dst1 = (EditText)findViewById(R.id.text1_dst);
+                            final EditText dst2 = (EditText)findViewById(R.id.text2_dst);
+                            final EditText dst3 = (EditText)findViewById(R.id.text3_dst);
 
                             tab3_1.setText(name1.getText().toString());
                             tab3_2.setText(name2.getText().toString());
@@ -577,6 +785,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     mv.py = 0;
                                     mHandler.sendEmptyMessageDelayed(10,200);
 
+
                                 }
                             });
                             tab3_2.setOnClickListener(new View.OnClickListener() {
@@ -593,6 +802,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     mv.py = 0;
                                     mHandler.sendEmptyMessageDelayed(10,200);
 
+
                                 }
                             });
                             tab3_3.setOnClickListener(new View.OnClickListener() {
@@ -608,6 +818,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     mv.px = 0;
                                     mv.py = 0;
                                     mHandler.sendEmptyMessageDelayed(10,200);
+
 
                                 }
                             });
@@ -681,10 +892,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             EditText name3 = (EditText)findViewById(R.id.btn3_name);
                             EditText name4 = (EditText)findViewById(R.id.btn4_name);
 
-                            EditText dst1 = (EditText)findViewById(R.id.text1_dst);
-                            EditText dst2 = (EditText)findViewById(R.id.text2_dst);
-                            EditText dst3 = (EditText)findViewById(R.id.text3_dst);
-                            EditText dst4 = (EditText)findViewById(R.id.text4_dst);
+                            final EditText dst1 = (EditText)findViewById(R.id.text1_dst);
+                            final EditText dst2 = (EditText)findViewById(R.id.text2_dst);
+                            final EditText dst3 = (EditText)findViewById(R.id.text3_dst);
+                            final EditText dst4 = (EditText)findViewById(R.id.text4_dst);
 
                             tab3_1.setText(name1.getText().toString());
                             tab3_2.setText(name2.getText().toString());
@@ -727,6 +938,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     mv.py = 0;
                                     mHandler.sendEmptyMessageDelayed(10,200);
 
+
                                 }
                             });
                             tab3_2.setOnClickListener(new View.OnClickListener() {
@@ -742,6 +954,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     mv.px = 0;
                                     mv.py = 0;
                                     mHandler.sendEmptyMessageDelayed(10,200);
+
 
                                 }
                             });
@@ -848,11 +1061,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             EditText name4 = (EditText)findViewById(R.id.btn4_name);
                             EditText name5 = (EditText)findViewById(R.id.btn5_name);
 
-                            EditText dst1 = (EditText)findViewById(R.id.text1_dst);
-                            EditText dst2 = (EditText)findViewById(R.id.text2_dst);
-                            EditText dst3 = (EditText)findViewById(R.id.text3_dst);
-                            EditText dst4 = (EditText)findViewById(R.id.text4_dst);
-                            EditText dst5 = (EditText)findViewById(R.id.text5_dst);
+                            final EditText dst1 = (EditText)findViewById(R.id.text1_dst);
+                            final EditText dst2 = (EditText)findViewById(R.id.text2_dst);
+                            final EditText dst3 = (EditText)findViewById(R.id.text3_dst);
+                            final EditText dst4 = (EditText)findViewById(R.id.text4_dst);
+                            final EditText dst5 = (EditText)findViewById(R.id.text5_dst);
 
 
                             tab3_1.setText(name1.getText().toString());
@@ -964,6 +1177,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     mv.py = 0;
                                     mHandler.sendEmptyMessageDelayed(10,200);
 
+
                                 }
                             });
                         }
@@ -976,17 +1190,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         View tabView1 = tw.getChildTabViewAt(0);
         TextView tv1 = (TextView)tabView1.findViewById(android.R.id.title);
         tv1.setTextColor(getResources().getColor(R.color.white));
-        tv1.setTextSize(20);
+        tv1.setTextSize(15);
 
         View tabView2 = tw.getChildTabViewAt(1);
         TextView tv2 = (TextView)tabView2.findViewById(android.R.id.title);
         tv2.setTextColor(getResources().getColor(R.color.white));
-        tv2.setTextSize(20);
+        tv2.setTextSize(15);
 
         View tabView3 = tw.getChildTabViewAt(2);
         TextView tv3 = (TextView)tabView3.findViewById(android.R.id.title);
         tv3.setTextColor(getResources().getColor(R.color.white));
-        tv3.setTextSize(20);
+        tv3.setTextSize(15);
 
 
     }
