@@ -344,6 +344,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mostViewd.setImageResource(0);
                 second.setImageResource(0);
                 third.setImageResource(0);
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
