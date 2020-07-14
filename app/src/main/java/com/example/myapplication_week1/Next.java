@@ -59,67 +59,6 @@ public class Next extends Activity {
         edit.putString("phone",str);
         edit.commit();
 
-        //BUTTON-DELETE
-        Button delbt=(Button)findViewById(R.id.del);
-        delbt.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder del=new AlertDialog.Builder(Next.this);
-                del.setTitle("DELETE");
-                del.setMessage("해당 연락처를 영구적으로 삭제하시겠습니까?");
-
-                del.setNegativeButton("예", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        MainActivity.list.remove(idx);
-
-                        JSONObject obj=new JSONObject();
-                        JSONArray arr=new JSONArray();
-                        try {
-                            for(int j=0; j<MainActivity.list.size(); j++){
-                                JSONObject tmp=new JSONObject();
-                                tmp.put("name",MainActivity.list.get(j).getName());
-                                tmp.put("number",MainActivity.list.get(j).getNumber());
-                                tmp.put("friendly",MainActivity.list.get(j).getFriendly());
-                                arr.put(tmp);
-                            }
-                            obj.put("Phonebook", arr);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        String str=obj.toString();
-                        SharedPreferences.Editor edit=getSharedPreferences("contact",MODE_PRIVATE).edit();
-                        edit.putString("phone",str);
-                        edit.commit();
-
-                        Toast.makeText(getBaseContext(),"삭제되었습니다.", Toast.LENGTH_SHORT).show();
-
-                        Intent intent=new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
-                        finishAffinity();
-                    }
-                });
-                del.setPositiveButton("아니오 뚱인데요", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-                del.create().show();
-            }
-        });
-
-        //BUTTON-MODIFY
-        final Button chbt=(Button)findViewById(R.id.ch);
-        chbt.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(getApplicationContext(), Modify.class);
-                intent.putExtra("index", idx);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override

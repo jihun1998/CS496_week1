@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,7 +22,7 @@ import java.util.*;
 
 public class Add extends Activity implements View.OnClickListener {
 
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(final Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_click);
 
@@ -34,6 +35,11 @@ public class Add extends Activity implements View.OnClickListener {
 
                 String uname=editname.getText().toString();
                 String unum=editnum.getText().toString();
+
+                if(!uname.equals("") && !unum.equals("")) {
+                    Toast.makeText(getBaseContext(), "다시 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    onCreate(savedInstanceState);
+                }
 
                 JSONObject obj=new JSONObject();
                 JSONArray arr=new JSONArray();

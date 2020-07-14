@@ -27,6 +27,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/okay1"
+            android:background="@drawable/buttonshape"
+            android:textColor="@color/bright_red"
             android:text="OKAY"/>
     </LinearLayout>
 

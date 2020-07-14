@@ -3,18 +3,24 @@ package com.example.myapplication_week1;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 //import android.database.Cursor;
 //import android.graphics.Bitmap;
 //import android.graphics.BitmapFactory;
 import android.content.SharedPreferences;
 import android.graphics.ImageFormat;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 //import android.provider.ContactsContract;
 import android.os.Vibrator;
 import android.provider.MediaStore;
 //import android.util.Base64;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -66,6 +72,11 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -129,8 +140,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LinearLayout ladder, names, dsts;
     //ImageView image;
 
+    //CONTACT
     PbAdapter adapter=null;
     static ArrayList<Phonebook> list = new ArrayList<Phonebook>();
+    ArrayList<Phonebook> tmp=new ArrayList<Phonebook>();
     int total=0;
 
     //Handler mdHandler, mlHandler, mrHandler;
@@ -158,13 +171,70 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Collections.sort(list);
 
         //LISTVIEW
-        final ListView listview = (ListView)findViewById(R.id.pb_listview);
+//        final ListView listview = (ListView)findViewById(R.id.pb_listview);
+//
+//        adapter = new PbAdapter(this,R.layout.pb_item, list);
+//        adapter.notifyDataSetChanged();
+//        listView.setAdapter(adapter);
 
+//        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView adapterView, View view, int position, long id) {
+//                Intent intent=new Intent(getApplicationContext(), Next.class);
+//
+//                intent.putExtra("name", list.get(position).getName());
+//                intent.putExtra("number", list.get(position).getNumber());
+//                list.get(position).setFriendly(list.get(position).getFriendly()+1);
+//                intent.putExtra("friendly", list.get(position).getFriendly());
+//                total++;
+//                intent.putExtra("total",total);
+//                intent.putExtra("index", position);
+//                startActivity(intent);
+//            }
+//        });
+
+        //SWIPE
+        SwipeMenuCreator creator=new SwipeMenuCreator() {
+            @Override
+            public void create(SwipeMenu menu) {
+                SwipeMenuItem item=new SwipeMenuItem(getApplicationContext());
+                item.setBackground(new ColorDrawable(Color.rgb(0xFF,0x71,0x71)));
+                item.setWidth(200);
+                // set item title
+                item.setTitle("MODIFY");
+                // set item title fontsize
+                item.setTitleSize(15);
+                // set item title font color
+                item.setTitleColor(Color.WHITE);
+                // add to menu
+                menu.addMenuItem(item);
+
+                // create "delete" item
+                SwipeMenuItem deleteItem = new SwipeMenuItem(
+                        getApplicationContext());
+                // set item background
+                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xFF,
+                        0xFF, 0xFF)));
+                // set item width
+                deleteItem.setWidth(200);
+                // set item title
+                deleteItem.setTitle("DELETE");
+                // set item title fontsize
+                deleteItem.setTitleSize(15);
+                // set item title font color
+                deleteItem.setTitleColor(Color.rgb(0xFF,0x71,0x71));
+                // add to menu
+                menu.addMenuItem(deleteItem);
+            }
+        };
+
+        final SwipeMenuListView listView=findViewById(R.id.pb_listview);
         adapter = new PbAdapter(this,R.layout.pb_item, list);
         adapter.notifyDataSetChanged();
-        listview.setAdapter(adapter);
+        listView.setAdapter(adapter);
+        listView.setMenuCreator(creator);
 
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView adapterView, View view, int position, long id) {
                 Intent intent=new Intent(getApplicationContext(), Next.class);
@@ -179,6 +249,99 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
             }
         });
+
+        listView.setOnSwipeListener(new SwipeMenuListView.OnSwipeListener() {
+            @Override
+            public void onSwipeStart(int position) {
+                listView.smoothOpenMenu(position);
+            }
+
+            @Override
+            public void onSwipeEnd(int position) {
+                listView.smoothOpenMenu(position);
+            }
+        });
+        listView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(final int position, SwipeMenu menu, int index) {
+                switch (index){
+                    case 0:
+                        Intent intent=new Intent(getApplicationContext(), Modify.class);
+                        intent.putExtra("index", position);
+                        startActivity(intent);
+                        break;
+                    case 1:
+                        AlertDialog.Builder del=new AlertDialog.Builder(MainActivity.this);
+                        del.setTitle("DELETE");
+                        del.setMessage("해당 연락처를 영구적으로 삭제하시겠습니까?");
+
+                        del.setNegativeButton("예", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                MainActivity.list.remove(position);
+
+                                JSONObject obj = new JSONObject();
+                                JSONArray arr = new JSONArray();
+                                try {
+                                    for (int j = 0; j < MainActivity.list.size(); j++) {
+                                        JSONObject tmp = new JSONObject();
+                                        tmp.put("name", MainActivity.list.get(j).getName());
+                                        tmp.put("number", MainActivity.list.get(j).getNumber());
+                                        tmp.put("friendly", MainActivity.list.get(j).getFriendly());
+                                        arr.put(tmp);
+                                    }
+                                    obj.put("Phonebook", arr);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                String str = obj.toString();
+                                SharedPreferences.Editor edit = getSharedPreferences("contact", MODE_PRIVATE).edit();
+                                edit.putString("phone", str);
+                                edit.commit();
+
+                                Toast.makeText(getBaseContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(intent);
+                                finishAffinity();
+                            }
+                        });
+                        del.setPositiveButton("아니오 뚱인데요", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+                        del.create().show();
+                        break;
+                }
+                return false;
+            }
+        });
+        //
+
+        //SEARCH
+        EditText editText=(EditText)findViewById(R.id.serach);
+        tmp.addAll(list);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String str=editable.toString();
+                search(str);
+            }
+        });
+        //
 
         //BUTTON-ADD
         final Button addbt=(Button)findViewById(R.id.add);
@@ -243,6 +406,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageAdapter.addItem(new ImageItem(R.drawable.image20));
         imageAdapter.addItem(new ImageItem(R.drawable.image21));
         gridView.setAdapter(imageAdapter);
+
 
         mostviewImg[0]=sp2.getInt("most",0);
         secondImg[0]=sp2.getInt("second",0);
@@ -344,13 +508,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mostViewd.setImageResource(0);
                 second.setImageResource(0);
                 third.setImageResource(0);
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
+        /*
+        mostViewd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ImageClicked.class);
+                intent.putExtra("image", mostViewd.getTag());
+                startActivity(intent);
+            }
+        });
+         */
 
         spec = host.newTabSpec("tab3");
         spec.setIndicator("LADDER");
         spec.setContent(R.id.tab_content3);
         host.addTab(spec);
+
+        final LinearLayout manual=(LinearLayout)findViewById(R.id.manual);
+        final LinearLayout ladderLay = (LinearLayout)findViewById(R.id.ladderLayout);
+        manual.setVisibility(View.VISIBLE);
+        ladderLay.setVisibility(View.INVISIBLE);
+        Button startLadder = (Button)findViewById(R.id.startLadder);
+
+        startLadder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                manual.setVisibility(View.GONE);
+                ladderLay.setVisibility(View.VISIBLE);
+            }
+        });
 
         tab3_btn = (Button)findViewById(R.id.tab3_btn);
         tab3_1 = (Button)findViewById(R.id.btn1);
@@ -1305,6 +1496,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
     }
+
+    public void search(String charText) {
+
+        // 문자 입력시마다 리스트를 지우고 새로 뿌려준다.
+        list.clear();
+
+        // 문자 입력이 없을때는 모든 데이터를 보여준다.
+        if (charText.length() == 0) {
+            list.addAll(tmp);
+        }
+        // 문자 입력을 할때..
+        else
+        {
+            // 리스트의 모든 데이터를 검색한다.
+            for(int i = 0;i < tmp.size(); i++)
+            {
+                // arraylist의 모든 데이터에 입력받은 단어(charText)가 포함되어 있으면 true를 반환한다.
+                if (tmp.get(i).getName().toLowerCase().contains(charText))
+                {
+                    // 검색된 데이터를 리스트에 추가한다.
+                    list.add(tmp.get(i));
+                }
+                if (tmp.get(i).getNumber().toLowerCase().contains(charText))
+                {
+                    // 검색된 데이터를 리스트에 추가한다.
+                    list.add(tmp.get(i));
+                }
+            }
+        }
+        // 리스트 데이터가 변경되었으므로 아답터를 갱신하여 검색된 데이터를 화면에 보여준다.
+        adapter.notifyDataSetChanged();
+    }
+
     @Override
     public void onClick(View view) {
 

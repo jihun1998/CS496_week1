@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/number"
-                android:layout_gravity="left|center"
+                android:layout_gravity="center"
                 android:text="전화번호"
                 android:textColor="#69b9ab"
                 android:textSize="15dp"/>
