@@ -406,6 +406,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageAdapter.addItem(new ImageItem(R.drawable.image20));
         imageAdapter.addItem(new ImageItem(R.drawable.image21));
         gridView.setAdapter(imageAdapter);
+        gridView.setAdapter(imageAdapter);
 
 
         mostviewImg[0]=sp2.getInt("most",0);
