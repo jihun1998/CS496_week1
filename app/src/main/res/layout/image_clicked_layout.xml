@@ -6,25 +6,9 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="match_parent"
 
         android:id="@+id/image"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Button
-            android:id="@+id/back"
-            android:background="@drawable/buttonshape"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:text="return to main page"
-            android:textColor="@color/bright_red"
-            android:textSize="20dp"
-            android:layout_marginBottom="10dp"/>
-    </LinearLayout>
-
 
 
 </LinearLayout>

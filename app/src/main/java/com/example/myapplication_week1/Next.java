@@ -8,7 +8,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +26,7 @@ public class Next extends Activity {
     @SuppressLint("StringFormatInvalid")
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.pb_click);
 
         Intent intent=getIntent();
@@ -37,7 +39,8 @@ public class Next extends Activity {
         name.setText(intent.getStringExtra("name"));
         number.setText(intent.getStringExtra("number"));
         friendly.setText(Integer.toString(intent.getIntExtra("friendly",0)*100/total)+"%");
-        final int idx=intent.getIntExtra("index",0);
+
+        //final int idx=intent.getIntExtra("index",0);
 
         JSONObject obj=new JSONObject();
         JSONArray arr=new JSONArray();
@@ -59,12 +62,31 @@ public class Next extends Activity {
         edit.putString("phone",str);
         edit.commit();
 
+        TextView check=(TextView)findViewById(R.id.check);
+        check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//                MainActivity.list.clear();
+//                MainActivity.list.addAll(MainActivity.tmp);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fadein,R.anim.hold);
+                finishAffinity();
+            }
+        });
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        if(event.getAction()==MotionEvent.ACTION_OUTSIDE){
+            return false;
+        }
+        return true;
     }
 
     @Override
     public void onBackPressed(){
-        Intent intent=new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
-        finishAffinity();
+        return;
     }
 }

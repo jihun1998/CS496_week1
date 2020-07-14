@@ -8,4 +8,5 @@
     <color name="hotPink">#FF007F</color>
     <color name="back">#FFE400</color>
     <color name="bright_red">#FF7171</color>
+    <color name="black">#000000</color>
 </resources>

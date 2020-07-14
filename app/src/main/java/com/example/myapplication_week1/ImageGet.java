@@ -23,7 +23,7 @@ import android.widget.Button;
 
 import java.io.IOException;
 
-public class ImageGet extends AppCompatActivity implements View.OnClickListener{
+public class ImageGet extends AppCompatActivity {
     private ScaleGestureDetector mScaleGestureDetector;
     private float mScaleFactor = 1.0f;
     private ImageView mImageView;
@@ -34,8 +34,7 @@ public class ImageGet extends AppCompatActivity implements View.OnClickListener{
 
         Intent intent = getIntent();
         mImageView = (ImageView)findViewById(R.id.image);
-        Button button = (Button)findViewById(R.id.back);
-        button.setOnClickListener(this);
+
         Uri uri = Uri.parse(intent.getStringExtra("image"));
         /*
         String imagePath = intent.getStringExtra("image");
@@ -88,13 +87,7 @@ public class ImageGet extends AppCompatActivity implements View.OnClickListener{
         return Bitmap.createBitmap(src,0,0,src.getWidth(),src.getHeight(),matrix,true);
     }
 
-    @Override
-    public void onClick(View v){
-        Intent mainintent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(mainintent);
-        finishAffinity();
 
-    }
     public boolean onTouchEvent(MotionEvent motionEvent){
         mScaleGestureDetector.onTouchEvent(motionEvent);
         return true;

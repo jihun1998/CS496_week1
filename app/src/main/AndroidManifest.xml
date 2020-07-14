@@ -24,7 +24,9 @@
             android:name=".MainActivity"/>
         <activity android:name=".ImageClicked"/>
         <activity android:name=".ImageGet"/>
-        <activity android:name=".Next"/>
+        <activity
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar"
+            android:name=".Next"/>
         <activity android:name=".Add"/>
         <activity android:name=".Modify"/>
     </application>

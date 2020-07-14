@@ -12,6 +12,7 @@ import android.content.Intent;
 //import android.graphics.BitmapFactory;
 import android.content.SharedPreferences;
 import android.graphics.ImageFormat;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
@@ -143,7 +145,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //CONTACT
     PbAdapter adapter=null;
     static ArrayList<Phonebook> list = new ArrayList<Phonebook>();
-    ArrayList<Phonebook> tmp=new ArrayList<Phonebook>();
+    ArrayList<Phonebook> tmp1=new ArrayList<Phonebook>();
+    ArrayList<Phonebook> tmp2=new ArrayList<Phonebook>();
     int total=0;
 
     //Handler mdHandler, mlHandler, mrHandler;
@@ -237,6 +240,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView adapterView, View view, int position, long id) {
+                list.clear();
+                list.addAll(tmp1);
                 Intent intent=new Intent(getApplicationContext(), Next.class);
 
                 intent.putExtra("name", list.get(position).getName());
@@ -302,9 +307,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                 Toast.makeText(getBaseContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show();
 
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                startActivity(intent);
-                                finishAffinity();
+                                adapter.notifyDataSetChanged();
                             }
                         });
                         del.setPositiveButton("아니오 뚱인데요", new DialogInterface.OnClickListener() {
@@ -323,7 +326,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //SEARCH
         EditText editText=(EditText)findViewById(R.id.serach);
-        tmp.addAll(list);
+        tmp1.addAll(list);
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -336,9 +339,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
-                String str=editable.toString();
-                search(str);
+            public void afterTextChanged(Editable edit) {
+                String text = edit.toString();
+                search(text);
             }
         });
         //
@@ -348,6 +351,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         addbt.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                list.clear();
+                list.addAll(tmp1);
                 Intent intent=new Intent(getApplicationContext(), Add.class);
                 startActivity(intent);
             }
@@ -514,16 +519,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 finish();
             }
         });
-        /*
-        mostViewd.setOnClickListener(new View.OnClickListener() {
+        mostViewd.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view) {
+            public void onClick(View view){
+                int k = getResources().getIdentifier("image" + mostviewImg[0], "drawable", getPackageName());
                 Intent intent = new Intent(getApplicationContext(), ImageClicked.class);
-                intent.putExtra("image", mostViewd.getTag());
+                intent.putExtra("image",Integer.toString(k));
                 startActivity(intent);
             }
         });
-         */
+        second.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                int k = getResources().getIdentifier("image" + secondImg[0], "drawable", getPackageName());
+                Intent intent = new Intent(getApplicationContext(), ImageClicked.class);
+                intent.putExtra("image",Integer.toString(k));
+                startActivity(intent);
+            }
+        });
+
+        third.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                int k = getResources().getIdentifier("image" + thirdImg[0], "drawable", getPackageName());
+                Intent intent = new Intent(getApplicationContext(), ImageClicked.class);
+                intent.putExtra("image",Integer.toString(k));
+                startActivity(intent);
+            }
+        });
 
         spec = host.newTabSpec("tab3");
         spec.setIndicator("LADDER");
@@ -1383,18 +1406,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TabWidget tw = (TabWidget)host.findViewById(android.R.id.tabs);
         View tabView1 = tw.getChildTabViewAt(0);
         TextView tv1 = (TextView)tabView1.findViewById(android.R.id.title);
-        tv1.setTextColor(getResources().getColor(R.color.white));
-        tv1.setTextSize(15);
+        tv1.setTextColor(getResources().getColor(R.color.bright_red));
+        tv1.setTypeface(null, Typeface.BOLD);
+        tv1.setTextSize(18);
 
         View tabView2 = tw.getChildTabViewAt(1);
         TextView tv2 = (TextView)tabView2.findViewById(android.R.id.title);
-        tv2.setTextColor(getResources().getColor(R.color.white));
-        tv2.setTextSize(15);
+        tv2.setTextColor(getResources().getColor(R.color.bright_red));
+        tv2.setTypeface(null, Typeface.BOLD);
+        tv2.setTextSize(18);
 
         View tabView3 = tw.getChildTabViewAt(2);
         TextView tv3 = (TextView)tabView3.findViewById(android.R.id.title);
-        tv3.setTextColor(getResources().getColor(R.color.white));
-        tv3.setTextSize(15);
+        tv3.setTextColor(getResources().getColor(R.color.bright_red));
+        tv3.setTypeface(null, Typeface.BOLD);
+        tv3.setTextSize(18);
 
 
     }
@@ -1505,24 +1531,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 문자 입력이 없을때는 모든 데이터를 보여준다.
         if (charText.length() == 0) {
-            list.addAll(tmp);
+            list.addAll(tmp1);
         }
         // 문자 입력을 할때..
         else
         {
             // 리스트의 모든 데이터를 검색한다.
-            for(int i = 0;i < tmp.size(); i++)
+            for(int i = 0;i < tmp1.size(); i++)
             {
                 // arraylist의 모든 데이터에 입력받은 단어(charText)가 포함되어 있으면 true를 반환한다.
-                if (tmp.get(i).getName().toLowerCase().contains(charText))
+                if (tmp1.get(i).getName().toLowerCase().contains(charText))
                 {
                     // 검색된 데이터를 리스트에 추가한다.
-                    list.add(tmp.get(i));
+                    list.add(tmp1.get(i));
                 }
-                if (tmp.get(i).getNumber().toLowerCase().contains(charText))
+                if (tmp1.get(i).getNumber().toLowerCase().contains(charText))
                 {
                     // 검색된 데이터를 리스트에 추가한다.
-                    list.add(tmp.get(i));
+                    list.add(tmp1.get(i));
                 }
             }
         }

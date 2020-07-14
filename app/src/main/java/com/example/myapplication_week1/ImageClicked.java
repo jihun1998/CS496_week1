@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Button;
 
-public class ImageClicked extends AppCompatActivity implements View.OnClickListener{
+public class ImageClicked extends AppCompatActivity {
     private ScaleGestureDetector mScaleGestureDetector;
     private float mScaleFactor = 1.0f;
     private ImageView mImageView;
@@ -22,19 +22,10 @@ public class ImageClicked extends AppCompatActivity implements View.OnClickListe
 
         Intent intent = getIntent();
         mImageView = (ImageView)findViewById(R.id.image);
-        Button button = (Button)findViewById(R.id.back);
-        button.setOnClickListener(this);
 
         int img = Integer.parseInt(intent.getStringExtra("image"));
         mImageView.setImageResource(img);
         mScaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
-
-    }
-    @Override
-    public void onClick(View v){
-        Intent mainintent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(mainintent);
-        finishAffinity();
 
     }
 

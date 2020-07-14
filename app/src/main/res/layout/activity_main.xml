@@ -46,25 +46,30 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="사용설명서 \n"
-                            android:layout_marginLeft="140dp"
+                            android:text="★두근두근 사다리★ \n"
+                            android:textStyle="bold"
+                            android:textColor="#000000"
+                            android:layout_marginLeft="95dp"
                             android:textSize="20dp"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="60dp"
+                            android:textColor="#000000"
                             android:text="  1. 사람수(2~5명)를 입력하고 \n      확인버튼을 누른다.\n"
                             android:textSize="18dp"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="60dp"
+                            android:textColor="#000000"
                             android:text="  2. 이름과 결과를 입력하고 \n      이름 입력을 누르세요.\n"
                             android:textSize="18dp"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="60dp"
+                            android:textColor="#000000"
                             android:text="  3. 각 이름 버튼을 누르면 \n       해당하는 결과가 나옵니다!\n"
                             android:textSize="18dp"/>
                         <Button
@@ -73,6 +78,8 @@
                             android:id="@+id/startLadder"
                             android:text="시작하기"
                             android:textSize="18dp"
+                            android:background="@drawable/buttonshape"
+                            android:textColor="@color/bright_red"
                             android:layout_marginLeft="150dp"/>
                     </LinearLayout>
                     <LinearLayout
@@ -93,6 +100,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/tab3_btn"
+                                android:textColor="@color/bright_red"
+                                android:textSize="15dp"
                                 android:background="@drawable/buttonshape"
                                 android:text="확인"/>
                         </LinearLayout>
@@ -198,6 +207,8 @@
                                 android:layout_height="wrap_content"
                                 android:id="@+id/btn_name"
                                 android:text="이름 입력"
+                                android:textColor="@color/bright_red"
+                                android:textSize="15dp"
                                 android:background="@drawable/buttonshape"
                                 android:visibility="invisible"/>
 
@@ -807,7 +818,9 @@
                         android:id="@+id/button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/buttonshape"
+                        android:background="@drawable/getimage"
+                        android:textColor="@color/white"
+                        android:textSize="15dp"
                         android:text="Get Image"/>
 
                     <LinearLayout
@@ -876,7 +889,9 @@
                         android:id="@+id/reset"
                         android:background="@drawable/buttonshape"
                         android:text="reset"
-                        android:layout_gravity="right"/>
+                        android:textSize="15dp"
+                        android:textColor="@color/bright_red"
+                        android:layout_gravity="center"/>
 
 
                     <GridView
@@ -896,14 +911,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="26sp"
-                    android:layout_marginRight="8dp"
-                    android:id="@+id/filter"
-                    android:text="검색"/>
 
                 <EditText
                     android:layout_width="match_parent"
@@ -932,6 +939,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/buttonshape"
+                        android:textSize="15dp"
                         android:textColor="@color/bright_red"
                         android:text="ADD" />
 

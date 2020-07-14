@@ -41,8 +41,8 @@ public class PbAdapter extends BaseAdapter {
         TextView name=(TextView)convertview.findViewById(R.id.name);
         name.setText(pb.getName());
 
-        TextView number=(TextView)convertview.findViewById(R.id.number);
-        number.setText(pb.getNumber());
+//        TextView number=(TextView)convertview.findViewById(R.id.number);
+//        number.setText(pb.getNumber());
 
         return convertview;
     }

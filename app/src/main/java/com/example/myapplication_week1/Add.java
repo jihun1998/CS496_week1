@@ -36,40 +36,41 @@ public class Add extends Activity implements View.OnClickListener {
                 String uname=editname.getText().toString();
                 String unum=editnum.getText().toString();
 
-                if(!uname.equals("") && !unum.equals("")) {
+                if(uname.equals("") && unum.equals("")) {
                     Toast.makeText(getBaseContext(), "다시 입력해주세요.", Toast.LENGTH_SHORT).show();
-                    onCreate(savedInstanceState);
-                }
 
-                JSONObject obj=new JSONObject();
-                JSONArray arr=new JSONArray();
-                try {
-                    for(int i=0; i<MainActivity.list.size(); i++){
-                        JSONObject tmp=new JSONObject();
-                        tmp.put("name",MainActivity.list.get(i).getName());
-                        tmp.put("number",MainActivity.list.get(i).getNumber());
-                        tmp.put("friendly",MainActivity.list.get(i).getFriendly());
+                }
+                else {
+                    JSONObject obj = new JSONObject();
+                    JSONArray arr = new JSONArray();
+                    try {
+                        for (int i = 0; i < MainActivity.list.size(); i++) {
+                            JSONObject tmp = new JSONObject();
+                            tmp.put("name", MainActivity.list.get(i).getName());
+                            tmp.put("number", MainActivity.list.get(i).getNumber());
+                            tmp.put("friendly", MainActivity.list.get(i).getFriendly());
+                            arr.put(tmp);
+                        }
+
+                        JSONObject tmp = new JSONObject();
+                        tmp.put("name", uname);
+                        tmp.put("number", unum);
+                        tmp.put("friendly", 0);
                         arr.put(tmp);
+                        obj.put("Phonebook", arr);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
 
-                    JSONObject tmp=new JSONObject();
-                    tmp.put("name",uname);
-                    tmp.put("number",unum);
-                    tmp.put("friendly",0);
-                    arr.put(tmp);
-                    obj.put("Phonebook", arr);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    String str = obj.toString();
+                    SharedPreferences.Editor edit = getSharedPreferences("contact", MODE_PRIVATE).edit();
+                    edit.putString("phone", str);
+                    edit.commit();
+
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    finishAffinity();
                 }
-
-                String str=obj.toString();
-                SharedPreferences.Editor edit=getSharedPreferences("contact",MODE_PRIVATE).edit();
-                edit.putString("phone",str);
-                edit.commit();
-
-                Intent intent=new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-                finishAffinity();
             }
         });
     }
