@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/startLayout">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/startimage"
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"
+        />
+</LinearLayout>
 <TabHost xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/host"
     android:layout_width="match_parent"
@@ -13,7 +29,8 @@
             android:id="@android:id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/pink"></TabWidget>
+            android:background="@color/pink">
+        </TabWidget>
 
         <FrameLayout
             android:id="@android:id/tabcontent"
@@ -37,15 +54,22 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Get Image"/>
-                    <EditText
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text = "Most Viewed"
-                        />
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id = "@+id/mostView"/>
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text = "Most Viewed"
+                            android:textSize="20dp"
+                            />
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id = "@+id/mostView"/>
+                    </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -55,10 +79,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:orientation="vertical">
-                        <EditText
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="2nd"/>
+                            android:text="   2nd"/>
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="100dp"
@@ -69,10 +93,10 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:orientation="vertical">
-                            <EditText
+                            <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="3rd"/>
+                                android:text="   3rd"/>
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="100dp"
@@ -839,3 +863,4 @@
         </FrameLayout>
     </LinearLayout>
 </TabHost>
+</FrameLayout>
