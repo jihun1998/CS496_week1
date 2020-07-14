@@ -243,6 +243,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageAdapter.addItem(new ImageItem(R.drawable.image20));
         imageAdapter.addItem(new ImageItem(R.drawable.image21));
         gridView.setAdapter(imageAdapter);
+        gridView.setAdapter(imageAdapter);
 
         mostviewImg[0]=sp2.getInt("most",0);
         secondImg[0]=sp2.getInt("second",0);
@@ -354,6 +355,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         spec.setIndicator("LADDER");
         spec.setContent(R.id.tab_content3);
         host.addTab(spec);
+
+        final LinearLayout manual=(LinearLayout)findViewById(R.id.manual);
+        final LinearLayout ladderLay = (LinearLayout)findViewById(R.id.ladderLayout);
+        manual.setVisibility(View.VISIBLE);
+        ladderLay.setVisibility(View.INVISIBLE);
+        Button startLadder = (Button)findViewById(R.id.startLadder);
+
+        startLadder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                manual.setVisibility(View.GONE);
+                ladderLay.setVisibility(View.VISIBLE);
+            }
+        });
 
         tab3_btn = (Button)findViewById(R.id.tab3_btn);
         tab3_1 = (Button)findViewById(R.id.btn1);
