@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class Phonebook implements Serializable {
     private String name;
     private String number;
+    private
     static ArrayList<Phonebook> pblist=new ArrayList<Phonebook>();
 
     public Phonebook(){}

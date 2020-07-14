@@ -28,7 +28,7 @@ import android.widget.Button;
 import android.view.ViewGroup;
 
 //import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
+import java.util.*;
 //import java.util.List;
 
 import android.app.Activity;
@@ -149,6 +149,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SharedPreferences sp=getSharedPreferences("contact",MODE_PRIVATE);
         String str=sp.getString("phone",null);
         if(str!=null) jsonParsing(str);
+        Collections.sort(list, new Comparator<Phonebook>() {
+            @Override
+            public int compare(Phonebook phonebook, Phonebook t1) {
+                return phonebook.getName().compareTo(t1.getName());
+            }
+        });
 
         //LISTVIEW
         final ListView listview = (ListView)findViewById(R.id.pb_listview);
