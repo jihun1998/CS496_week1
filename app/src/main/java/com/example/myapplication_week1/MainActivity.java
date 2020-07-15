@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     PbAdapter adapter=null;
     static ArrayList<Phonebook> list = new ArrayList<Phonebook>();
     ArrayList<Phonebook> tmp1=new ArrayList<Phonebook>();
-    ArrayList<Phonebook> tmp2=new ArrayList<Phonebook>();
+    static ArrayList<String> tmp2=new ArrayList<String>();
     int total=0;
 
     //Handler mdHandler, mlHandler, mrHandler;
@@ -1518,6 +1518,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 total+=pobj.getInt("friendly");
 
                 list.add(pb);
+                tmp2.add(pb.getNumber());
             }
         } catch (JSONException e) {
             e.printStackTrace();

@@ -73,6 +73,8 @@ public class Modify extends Activity implements View.OnClickListener{
                         edit.putString("phone",str);
                         edit.commit();
 
+                        Toast.makeText(getBaseContext(), "수정되었습니다.", Toast.LENGTH_SHORT).show();
+
                         Intent intent=new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
                         finishAffinity();
