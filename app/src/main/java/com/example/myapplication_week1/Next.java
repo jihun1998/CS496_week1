@@ -71,7 +71,7 @@ public class Next extends Activity {
 //                MainActivity.list.clear();
 //                MainActivity.list.addAll(MainActivity.tmp);
                 startActivity(intent);
-                overridePendingTransition(R.anim.fadein,R.anim.hold);
+                overridePendingTransition(R.anim.fadein,R.anim.fade_out);
                 finishAffinity();
             }
         });
