@@ -283,7 +283,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         del.setNegativeButton("예", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                MainActivity.list.remove(position);
+                                list.remove(position);
+                                tmp1.clear();
+                                tmp1.addAll(list);
 
                                 JSONObject obj = new JSONObject();
                                 JSONArray arr = new JSONArray();
